@@ -1,0 +1,97 @@
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/visitor_count"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:layout_gravity="center"
+                tools:textColor="@android:color/black"/>
+        <TextView
+                android:id="@+id/count_details"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:layout_gravity="center"
+                android:textSize="75sp"
+                android:textColor="@android:color/black"
+        />
+        <ImageView
+                android:id="@+id/image_details"
+                android:layout_width="match_parent"
+                android:layout_height="321dp"
+                android:contentDescription="@string/image"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_details"
+                android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/status_details"
+                android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/type_details"
+                android:layout_gravity="center"/>
+
+        <Button
+                android:id="@+id/liveChatBtn"
+                android:text="@string/message_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <Button
+                android:id="@+id/rate_review"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/click_here_to_rate_and_review"/>
+        <TextView
+                android:text="@string/ratings_and_reviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="10dp"
+                android:id="@+id/textView17"
+                android:textStyle="bold"/>
+
+        <!--<EditText-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:ems="10"-->
+                <!--android:hint="@string/enter_your_reviews"-->
+                <!--android:id="@+id/editTextName"-->
+                <!--android:autofillHints="Nice" tools:targetApi="o"/>-->
+
+        <!--<RatingBar-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:max="5"-->
+                <!--android:stepSize="1"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_height="wrap_content" android:id="@+id/ratingBar"-->
+        <!--/>-->
+        <!--<Button-->
+                <!--android:text="@string/submit_ratings_and_reviews"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content" android:id="@+id/buttonSave"/>-->
+        <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="1000dp">
+
+        </ListView>
+
+    </LinearLayout>
+
+</ScrollView>

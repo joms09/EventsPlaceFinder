@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".AdvancedSearchResult"
+        android:orientation="vertical">
+    
+    <!--<ListView-->
+            <!--android:id="@+id/main_listview"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+
+    <!--</ListView>-->
+
+    <TextView
+            android:id="@+id/locationLabel"
+            android:layout_width="match_parent"
+            android:text="hi"
+            android:layout_height="50dp"
+    />
+    <TextView
+            android:id="@+id/pickstarttimeLabel"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/pickendtimeLabel"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/pickstartdateLabel"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/pickenddateLabel"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/capacity1Label"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/eventLabel"
+            android:text="hi"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="25dp"
+    />
+    <TextView
+            android:id="@+id/minibudgetLabel"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:text="hi"
+            android:layout_height="25dp"
+    />
+        
+
+</LinearLayout>

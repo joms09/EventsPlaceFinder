@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "861816809760",
+    "firebase_url": "https://eventsplacefinder.firebaseio.com",
+    "project_id": "eventsplacefinder",
+    "storage_bucket": "eventsplacefinder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861816809760:android:7f57501780164fa6",
+        "android_client_info": {
+          "package_name": "com.example.jomari.eventsplacefinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861816809760-76kb4vj6bn8mln1pacsjvfpds07rbblo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.jomari.eventsplacefinder",
+            "certificate_hash": "a629cd6dfe65bd13e1196bb6ae396651028f1f80"
+          }
+        },
+        {
+          "client_id": "861816809760-u822u3koj6s9h5csoj39aqd1utur3h67.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9V2vDNMeB_M9ANRcq5bTqfdOjbQXAb4E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861816809760-u822u3koj6s9h5csoj39aqd1utur3h67.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
