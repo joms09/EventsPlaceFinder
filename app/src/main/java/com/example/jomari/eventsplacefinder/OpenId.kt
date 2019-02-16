@@ -30,11 +30,12 @@ import com.google.firebase.database.ValueEventListener
 import com.twitter.sdk.android.core.*
 import com.twitter.sdk.android.core.identity.TwitterLoginButton
 import kotlinx.android.synthetic.main.activity_openid.*
+import models.User
 import java.util.*
 
 
 const val RC_SIGN_IN = 123
-lateinit var mGoogleSignInClient : GoogleSignInClient
+lateinit var mGoogleSignInClient: GoogleSignInClient
 
 val user = FirebaseAuth.getInstance()
 
@@ -46,8 +47,8 @@ class OpenId : AppCompatActivity() {
     lateinit var mLoginPassword: EditText
     lateinit var mProgressbar: ProgressDialog
     lateinit var auth: FirebaseAuth
-    var compEmail : String = ""
-    var compPwd : String = ""
+    var compEmail: String = ""
+    var compPwd: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +108,7 @@ class OpenId : AppCompatActivity() {
         }
 
         val fbAndTwitter = user.currentUser
-        if(fbAndTwitter != null){
+        if (fbAndTwitter != null) {
             sign_in_button.visibility = View.GONE
             login_button.visibility = View.GONE
             loginButtonTwitter.visibility = View.GONE
@@ -169,7 +170,7 @@ class OpenId : AppCompatActivity() {
 
         val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("company_email").equalTo(email)
 
-        ref.addValueEventListener(object: ValueEventListener{
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
@@ -182,8 +183,8 @@ class OpenId : AppCompatActivity() {
         })
         val mAuth = FirebaseAuth.getInstance()
         mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task->
-                if (task.isSuccessful || (compEmail==email && compPwd==password)) {
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful || (compEmail == email && compPwd == password)) {
                     mProgressbar.dismiss()
                     val currentCompany = mAuth.currentUser
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
@@ -191,8 +192,7 @@ class OpenId : AppCompatActivity() {
                     val startIntent = Intent(applicationContext, CompanyMessages::class.java)
                     startActivity(startIntent)
                     finish()
-                }
-                else{
+                } else {
                     password_tv.setText("")
                     Toast.makeText(this, "Invalid Account", Toast.LENGTH_LONG).show()
                     //Toast.makeText(this, "Authentication failed.${task.exception}", Toast.LENGTH_LONG).show()
@@ -248,6 +248,8 @@ class OpenId : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
+                    saveUserToFirebaseDatabase()
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("tag", "signInWithCredential:success")
                     textView.visibility = View.GONE
@@ -276,7 +278,25 @@ class OpenId : AppCompatActivity() {
             }
     }
 
-    //GOOOOOOOOOOOOOOOOOOOOOOOOOOGLE
+    private fun saveUserToFirebaseDatabase() {
+        val mAuth = FirebaseAuth.getInstance()
+        val currentUser = mAuth.currentUser
+        val uid = mAuth.uid.toString()
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        val user = User(uid, currentUser?.displayName!!)
+
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("", "Finally we saved the user to Firebase Database")
+            }
+            .addOnFailureListener {
+                Log.d("", "Failed to set value to database: ${it.message}")
+            }
+    }
+
+
+//GOOOOOOOOOOOOOOOOOOOOOOOOOOGLE
 
     private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
@@ -303,6 +323,8 @@ class OpenId : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
+                    saveUserToFirebaseDatabase()
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("tag", "signInWithCredential:success")
                     textView.visibility = View.GONE
@@ -331,7 +353,7 @@ class OpenId : AppCompatActivity() {
             }
     }
 
-    //twitter
+//twitter
 
     private fun handleTwitterSession(session: TwitterSession) {
         Log.d("tag", "handleTwitterSession:$session")
@@ -344,6 +366,8 @@ class OpenId : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+
+                    saveUserToFirebaseDatabase()
                     // Sign in success, update UI with the signed-in user's information
                     Log.d("tag", "signInWithCredential:success")
                     textView.visibility = View.GONE
