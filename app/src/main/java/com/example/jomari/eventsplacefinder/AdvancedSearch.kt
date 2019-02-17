@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -71,23 +72,23 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         mProgressbar = ProgressDialog(this)
 
-        getLocationBtn.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-                ) {
-                    //permission was not enabled
-                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    requestPermissions(permission, PERMISSION_CODE)
-                } else {
-                    //permission already granted
-                    openCamera()
-                }
-            } else {
-                //system os is < marshmallow
-                openCamera()
-            }
-        }
+//        getLocationBtn.setOnClickListener {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+//                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
+//                ) {
+//                    //permission was not enabled
+//                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    requestPermissions(permission, PERMISSION_CODE)
+//                } else {
+//                    //permission already granted
+//                    openCamera()
+//                }
+//            } else {
+//                //system os is < marshmallow
+//                openCamera()
+//            }
+//        }
 
 
         getLocation = findViewById(R.id.btn_get_location)
@@ -217,7 +218,6 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
             }
         }
-        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
     }
 
     @SuppressLint("MissingPermission")
@@ -485,6 +485,11 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val minibudget = miniBudget.text.toString().trim()
 
         when {
+            location.isEmpty() -> {
+                tv_result.text = getString(R.string.plsgeturlocation)
+                tv_result.setTextColor(Color.RED)
+                return
+            }
             capacity1.isEmpty() -> {
                 capacity.error = "Please enter capacity"
                 return

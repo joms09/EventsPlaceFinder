@@ -31,20 +31,20 @@
                 android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <Button
-                    android:text="@string/open_camera"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/getLocationBtn"
-                    android:layout_marginStart="12dp"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginEnd="12dp"/>
+            <!--<Button-->
+                    <!--android:text="@string/open_camera"-->
+                    <!--android:layout_width="170dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/openCameraBtn"-->
+                    <!--android:layout_marginStart="12dp"-->
+                    <!--android:layout_alignParentStart="true"-->
+                    <!--android:layout_marginEnd="12dp"/>-->
 
             <Button
                     android:id="@+id/btn_get_location"
-                    android:layout_width="170dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:text="@string/get_location"/>

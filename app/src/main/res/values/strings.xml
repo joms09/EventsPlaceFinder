@@ -10,15 +10,24 @@
     <string name="locationText">Location</string>
     <string name="enter_location">Enter Location</string>
     <string name="event_dates">Event Dates</string>
-    <string name="pickStartDate">Pick start date</string>
-    <string name="pickEndDate">PICK END DATE</string>
+    <string name="pickStartDate">Date From</string>
+    <string name="pickEndDate">DATE To</string>
     <string name="capacityText">Capacity</string>
     <string name="enter_capacity">Enter Capacity</string>
     <string name="eventTypeText">Event Type</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
     <string name="submit">Submit</string>
     <string name="time">Time</string>
-    <string name="pickStartTime">Pick Start Time</string>
-    <string name="pickEndTime">Pick End Time</string>
+    <string name="pickStartTime">Time From</string>
+    <string name="pickEndTime">Time To</string>
     <string name="next">Next</string>
     <string name="title">Title</string>
     <string name="image">image</string>
@@ -162,4 +171,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="plsgeturlocation">Please get your location</string>
+    <string name="get">Please get your location</string>
 </resources>

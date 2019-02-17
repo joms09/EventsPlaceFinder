@@ -13,7 +13,6 @@
             <!--android:layout_height="match_parent">-->
 
     <!--</ListView>-->
-
     <TextView
             android:id="@+id/locationLabel"
             android:layout_width="match_parent"

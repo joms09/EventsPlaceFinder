@@ -34,18 +34,4 @@ class AdvancedSearchResult : AppCompatActivity() {
         minibudgetLabel.text = minibudget
 
     }
-
-    private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed()
-            return
-        }
-
-        this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 2000)
-    }
-
 }
