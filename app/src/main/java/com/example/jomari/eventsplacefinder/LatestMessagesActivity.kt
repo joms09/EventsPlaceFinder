@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
 import models.ChatMessage
 import models.User
@@ -141,6 +142,7 @@ class LatestMessagesActivity : AppCompatActivity() {
         }
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
+            Toast.makeText(this, "Invalid Account",Toast.LENGTH_LONG).show()
             val intent = Intent(this, OpenId::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)

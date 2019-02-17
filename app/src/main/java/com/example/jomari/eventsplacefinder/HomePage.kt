@@ -30,11 +30,9 @@ class HomePage : AppCompatActivity() {
             //connected to internet
 
             if (networkInfo.type == ConnectivityManager.TYPE_WIFI) {
-                Toast.makeText(baseContext, "Connected via WIFI Network", Toast.LENGTH_SHORT).show()
             }
 
             if (networkInfo.type == ConnectivityManager.TYPE_MOBILE) {
-                Toast.makeText(baseContext, "Connected via Mobile Network", Toast.LENGTH_SHORT).show()
             }
         } else {
             Toast.makeText(baseContext, "No Internet Connection", Toast.LENGTH_SHORT).show()

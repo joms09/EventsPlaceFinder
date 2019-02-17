@@ -69,7 +69,7 @@ class SoloDetails : AppCompatActivity() {
                 intentAct.putExtra("nameOfComp", name)
                 startActivity(intentAct)
             } else {
-                Toast.makeText(applicationContext, "Please Login first", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "Invalid Account", Toast.LENGTH_LONG).show()
                 val intentActLogin = Intent(this@SoloDetails, OpenId::class.java)
                 startActivity(intentActLogin)
             }
