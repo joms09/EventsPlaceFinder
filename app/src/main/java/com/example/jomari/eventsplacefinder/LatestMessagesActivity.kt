@@ -1,7 +1,9 @@
 package com.example.jomari.eventsplacefinder
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -31,6 +33,10 @@ class LatestMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
         verifyUserIsLoggedIn()
+        
+        supportActionBar!!.title = "Messenger"
+
+        saveUserToDatabase()
 
         recyclerview_latest_messages.adapter = adapter
 
@@ -128,33 +134,41 @@ class LatestMessagesActivity : AppCompatActivity() {
     }
 
     private fun verifyUserIsLoggedIn() {
+        val intentFromSignIn = intent
+        val company = intentFromSignIn.getStringExtra("company")
+        if (company != null) {
+            saveUserToDatabase()
+        }
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
             val intent = Intent(this, OpenId::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
-        saveUserToDatabase()
+
     }
 
     private fun saveUserToDatabase() {
-        val currentUser = user.currentUser
+
+        val intent = Intent()
+        val currentUser = intent.getStringExtra("company")
         val uid = user.uid.toString()
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        if (currentUser != null) {
+            val user = User(uid, currentUser)
 
-        val user = User(uid, currentUser?.displayName!!)
-
-        ref.setValue(user)
-            .addOnSuccessListener {
-                Log.d("", "Finally we saved the user to Firebase Database")
-            }
-            .addOnFailureListener {
-                Log.d("", "Failed to set value to database: ${it.message}")
-            }
+            ref.setValue(user)
+                .addOnSuccessListener {
+                    Log.d("", "Finally we saved the user to Firebase Database")
+                }
+                .addOnFailureListener {
+                    Log.d("", "Failed to set value to database: ${it.message}")
+                }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu, menu)
+        menuInflater.inflate(R.menu.nav_menu2, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -162,10 +176,19 @@ class LatestMessagesActivity : AppCompatActivity() {
         when (item?.itemId) {
 
             R.id.menu_sign_out -> {
-                FirebaseAuth.getInstance().signOut()
-                val intent = Intent(this, OpenId::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(intent)
+                val mProgressbar = ProgressDialog(this)
+                mProgressbar.setTitle("Signing Out!")
+                mProgressbar.setMessage("Please wait..")
+                mProgressbar.show()
+                Handler().postDelayed({
+                    mProgressbar.dismiss()
+                    user.signOut()
+                    mGoogleSignInClient.signOut()
+                    val intent = Intent(this, OpenId::class.java)
+                    startActivity(intent)
+                    finish()
+                }, 2000)
+                super.onOptionsItemSelected(item)
             }
         }
 

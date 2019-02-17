@@ -126,7 +126,7 @@ class OpenId : AppCompatActivity() {
                         val intent = Intent(this@OpenId, LatestMessagesActivity::class.java)
                         startActivity(intent)
                         finish()
-                    }else{
+                    } else {
                         sign_in_button.visibility = View.GONE
                         login_button.visibility = View.GONE
                         loginButtonTwitter.visibility = View.GONE
@@ -200,37 +200,38 @@ class OpenId : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 compEmail = p0.value.toString()
+                user.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this@OpenId) { task ->
+                        if (task.isSuccessful || compEmail == "yes") {
+                            mProgressbar.dismiss()
+                            val currentCompany = user.currentUser
+                            Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
+                            updateUI(currentCompany)
+                            val startIntent = Intent(applicationContext, LatestMessagesActivity::class.java)
+                            startIntent.putExtra("company", currentCompany?.displayName)
+                            startActivity(startIntent)
+                            finish()
+                        } else if (task.isSuccessful || compEmail != email) {
+                            mProgressbar.dismiss()
+                            val currentCompany = user.currentUser
+                            Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
+                            updateUI(currentCompany)
+                            val startIntent = Intent(applicationContext, HomePage::class.java)
+                            startActivity(startIntent)
+                            finish()
+                        } else {
+                            password_tv.setText("")
+                            Toast.makeText(this@OpenId, "Invalid Account", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this, "Authentication failed.${task.exception}", Toast.LENGTH_LONG).show()
+                        }
+
+                        mProgressbar.dismiss()
+                    }
             }
 
         })
 
-        user.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (compEmail == "yes") {
-                    mProgressbar.dismiss()
-                    val currentCompany = user.currentUser
-                    Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
-                    updateUI(currentCompany)
-                    val startIntent = Intent(applicationContext, LatestMessagesActivity::class.java)
-                    startActivity(startIntent)
-                    finish()
-                } else if(compEmail!=email){
-                    mProgressbar.dismiss()
-                    val currentCompany = user.currentUser
-                    Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
-                    updateUI(currentCompany)
-                    val startIntent = Intent(applicationContext, HomePage::class.java)
-                    startActivity(startIntent)
-                    finish()
-                }
-                else {
-                    password_tv.setText("")
-                    Toast.makeText(this, "Invalid Account", Toast.LENGTH_LONG).show()
-                    //Toast.makeText(this, "Authentication failed.${task.exception}", Toast.LENGTH_LONG).show()
-                }
 
-                mProgressbar.dismiss()
-            }
     }
 
     private var doubleBackToExitPressedOnce = false
