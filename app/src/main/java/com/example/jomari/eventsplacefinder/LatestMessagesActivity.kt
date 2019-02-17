@@ -1,146 +1,157 @@
 package com.example.jomari.eventsplacefinder
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
+import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
+import models.ChatMessage
+import models.User
+import views.LatestMessageRow
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import models.ChatMessage
-import views.LatestMessageRow
-import models.User
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_latest_messages.*
 
 class LatestMessagesActivity : AppCompatActivity() {
 
-  companion object {
-    var currentUser: User? = null
-    val TAG = "LatestMessages"
-  }
+    private val adapter = GroupAdapter<ViewHolder>()
+    private val latestMessagesMap = HashMap<String, ChatMessage>()
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_latest_messages)
-
-    recyclerview_latest_messages.adapter = adapter
-    //recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
-    // set item click listener on your adapter
-    adapter.setOnItemClickListener { item, view ->
-      Log.d(TAG, "123")
-      val intent = Intent(this, ChatLogActivity::class.java)
-
-      // we are missing the chat partner user
-
-      val row = item as LatestMessageRow
-      intent.putExtra(NewMessageActivity.USER_KEY, row.chatPartnerUser)
-      startActivity(intent)
+    companion object {
+        var currentUser: User? = null
+        val TAG = LatestMessagesActivity::class.java.simpleName
     }
 
-//    setupDummyRows()
-    listenForLatestMessages()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_latest_messages)
+        verifyUserIsLoggedIn()
 
-    fetchCurrentUser()
+        recyclerview_latest_messages.adapter = adapter
 
-    verifyUserIsLoggedIn()
-  }
+        swiperefresh.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent))
 
-  val latestMessagesMap = HashMap<String, ChatMessage>()
+        fetchCurrentUser()
+        listenForLatestMessages()
 
-  private fun refreshRecyclerViewMessages() {
-    adapter.clear()
-    latestMessagesMap.values.forEach {
-      adapter.add(LatestMessageRow(it))
-    }
-  }
+        adapter.setOnItemClickListener { item, _ ->
+            val intent = Intent(this, ChatLogActivity::class.java)
+            val row = item as LatestMessageRow
+            intent.putExtra(USER_KEY, row.chatPartnerUser)
+            startActivity(intent)
+        }
 
-  private fun listenForLatestMessages() {
-    val fromId = FirebaseAuth.getInstance().uid
-    val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
-    ref.addChildEventListener(object: ChildEventListener {
-      override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-        val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
-        latestMessagesMap[p0.key!!] = chatMessage
-        refreshRecyclerViewMessages()
-      }
+        new_message_fab.setOnClickListener {
+            val intent = Intent(this, NewMessageActivity::class.java)
+            startActivity(intent)
+        }
 
-      override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-        val chatMessage = p0.getValue(ChatMessage::class.java) ?: return
-        latestMessagesMap[p0.key!!] = chatMessage
-        refreshRecyclerViewMessages()
-      }
-
-      override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-      }
-      override fun onChildRemoved(p0: DataSnapshot) {
-
-      }
-      override fun onCancelled(p0: DatabaseError) {
-
-      }
-    })
-  }
-
-  val adapter = GroupAdapter<ViewHolder>()
-
-//  private fun setupDummyRows() {
-//
-//
-//    adapter.add(LatestMessageRow())
-//    adapter.add(LatestMessageRow())
-//    adapter.add(LatestMessageRow())
-//  }
-
-  private fun fetchCurrentUser() {
-    val uid = FirebaseAuth.getInstance().uid
-    val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
-    ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
-      override fun onDataChange(p0: DataSnapshot) {
-        currentUser = p0.getValue(User::class.java)
-      }
-
-      override fun onCancelled(p0: DatabaseError) {
-
-      }
-    })
-  }
-
-  private fun verifyUserIsLoggedIn() {
-    val uid = FirebaseAuth.getInstance().uid
-    if (uid == null) {
-      val intent = Intent(this, OpenId::class.java)
-      intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-      startActivity(intent)
-    }
-  }
-
-  override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-    when (item?.itemId) {
-      R.id.menu_new_messages -> {
-        val intent = Intent(this, NewMessageActivity::class.java)
-        startActivity(intent)
-      }
-      R.id.menu_sign_out -> {
-        FirebaseAuth.getInstance().signOut()
-        val intent = Intent(this, OpenId::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
-      }
+        swiperefresh.setOnRefreshListener {
+            verifyUserIsLoggedIn()
+            fetchCurrentUser()
+            listenForLatestMessages()
+        }
     }
 
-    return super.onOptionsItemSelected(item)
-  }
+    private fun refreshRecyclerViewMessages() {
+        adapter.clear()
+        latestMessagesMap.values.forEach {
+            adapter.add(LatestMessageRow(it))
+        }
+        swiperefresh.isRefreshing = false
+    }
 
-  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-    menuInflater.inflate(R.menu.nav_menu, menu)
-    return super.onCreateOptionsMenu(menu)
-  }
+    private fun listenForLatestMessages() {
+        swiperefresh.isRefreshing = true
+        val fromId = FirebaseAuth.getInstance().uid ?: return
+        val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
 
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.d(TAG, "database error: " + databaseError.message)
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.d(TAG, "has children: " + dataSnapshot.hasChildren())
+                if (!dataSnapshot.hasChildren()) {
+                    swiperefresh.isRefreshing = false
+                }
+            }
+
+        })
+
+
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+
+            override fun onChildMoved(dataSnapshot: DataSnapshot, previousChildName: String?) {
+            }
+
+            override fun onChildChanged(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                dataSnapshot.getValue(ChatMessage::class.java)?.let {
+                    latestMessagesMap[dataSnapshot.key!!] = it
+                    refreshRecyclerViewMessages()
+                }
+            }
+
+            override fun onChildAdded(dataSnapshot: DataSnapshot, previousChildName: String?) {
+                dataSnapshot.getValue(ChatMessage::class.java)?.let {
+                    latestMessagesMap[dataSnapshot.key!!] = it
+                    refreshRecyclerViewMessages()
+                }
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+        })
+    }
+
+    private fun fetchCurrentUser() {
+        val uid = FirebaseAuth.getInstance().uid ?: return
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                currentUser = dataSnapshot.getValue(User::class.java)
+            }
+
+        })
+    }
+
+    private fun verifyUserIsLoggedIn() {
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            val intent = Intent(this, OpenId::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.nav_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+
+            R.id.menu_sign_out -> {
+                FirebaseAuth.getInstance().signOut()
+                val intent = Intent(this, OpenId::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
 }

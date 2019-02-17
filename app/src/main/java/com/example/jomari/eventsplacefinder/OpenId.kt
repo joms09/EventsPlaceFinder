@@ -4,13 +4,13 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import android.support.v7.app.AppCompatActivity
 import com.facebook.*
 import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
@@ -37,7 +37,7 @@ import java.util.*
 const val RC_SIGN_IN = 123
 lateinit var mGoogleSignInClient: GoogleSignInClient
 
-val user = FirebaseAuth.getInstance()
+val user = FirebaseAuth.getInstance()!!
 
 class OpenId : AppCompatActivity() {
 
@@ -108,16 +108,39 @@ class OpenId : AppCompatActivity() {
         }
 
         val fbAndTwitter = user.currentUser
-        if (fbAndTwitter != null) {
-            sign_in_button.visibility = View.GONE
-            login_button.visibility = View.GONE
-            loginButtonTwitter.visibility = View.GONE
-            tv_name.text = fbAndTwitter.displayName
-            tv_name.visibility = View.VISIBLE
-            val intent = Intent(this, HomePage::class.java)
-            startActivity(intent)
-            finish()
-        }
+        val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("company_email")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val email = p0.value.toString()
+                if (fbAndTwitter != null) {
+
+                    if (fbAndTwitter.email == email) {
+                        sign_in_button.visibility = View.GONE
+                        login_button.visibility = View.GONE
+                        loginButtonTwitter.visibility = View.GONE
+                        tv_name.text = fbAndTwitter.displayName
+                        tv_name.visibility = View.VISIBLE
+                        val intent = Intent(this@OpenId, LatestMessagesActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        sign_in_button.visibility = View.GONE
+                        login_button.visibility = View.GONE
+                        loginButtonTwitter.visibility = View.GONE
+                        tv_name.text = fbAndTwitter.displayName
+                        tv_name.visibility = View.VISIBLE
+                        val intent = Intent(this@OpenId, HomePage::class.java)
+                        startActivity(intent)
+                        finish()
+                    }
+                }
+            }
+
+        })
+
 
         //FACEEEEEEEEEEEEEEEEEEEEEEEEEEBOOK
 
@@ -189,10 +212,19 @@ class OpenId : AppCompatActivity() {
                     val currentCompany = mAuth.currentUser
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
                     updateUI(currentCompany)
-                    val startIntent = Intent(applicationContext, CompanyMessages::class.java)
+                    val startIntent = Intent(applicationContext, LatestMessagesActivity::class.java)
                     startActivity(startIntent)
                     finish()
-                } else {
+                } else if(task.isSuccessful){
+                    mProgressbar.dismiss()
+                    val currentCompany = mAuth.currentUser
+                    Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
+                    updateUI(currentCompany)
+                    val startIntent = Intent(applicationContext, HomePage::class.java)
+                    startActivity(startIntent)
+                    finish()
+                }
+                else {
                     password_tv.setText("")
                     Toast.makeText(this, "Invalid Account", Toast.LENGTH_LONG).show()
                     //Toast.makeText(this, "Authentication failed.${task.exception}", Toast.LENGTH_LONG).show()
@@ -279,9 +311,8 @@ class OpenId : AppCompatActivity() {
     }
 
     private fun saveUserToFirebaseDatabase() {
-        val mAuth = FirebaseAuth.getInstance()
-        val currentUser = mAuth.currentUser
-        val uid = mAuth.uid.toString()
+        val currentUser = user.currentUser
+        val uid = user.uid.toString()
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
         val user = User(uid, currentUser?.displayName!!)

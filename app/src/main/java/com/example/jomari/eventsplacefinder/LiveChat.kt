@@ -42,7 +42,8 @@ class LiveChat : AppCompatActivity() {
      */
     private fun initFirebase() {
         FirebaseApp.initializeApp(applicationContext)
-        databaseReference = FirebaseDatabase.getInstance().getReference("event").child(id)
+        val uid = FirebaseAuth.getInstance().uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("/user-messages/$uid")
     }
 
     /**

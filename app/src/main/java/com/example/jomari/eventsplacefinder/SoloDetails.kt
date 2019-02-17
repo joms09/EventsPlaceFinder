@@ -3,14 +3,16 @@ package com.example.jomari.eventsplacefinder
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.*
+import android.widget.Button
+import android.widget.ListView
+import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.solo_details.*
 
-var id : String = ""
+var id: String = ""
+
 
 class SoloDetails : AppCompatActivity() {
 
@@ -50,7 +52,7 @@ class SoloDetails : AppCompatActivity() {
 
         rate_review.setOnClickListener {
             val intent = Intent(this@SoloDetails, EnterRatingsReviews::class.java)
-            intent.putExtra("id",id)
+            intent.putExtra("id", id)
             startActivity(intent)
         }
 
@@ -59,16 +61,14 @@ class SoloDetails : AppCompatActivity() {
             val acctFbTwEm = user.currentUser
 
             if (acct != null) {
-                val intentAct = Intent(this@SoloDetails, LiveChat::class.java)
+                val intentAct = Intent(this@SoloDetails, LatestMessagesActivity::class.java)
                 intentAct.putExtra("nameOfComp", name)
                 startActivity(intentAct)
-            }
-            else if (acctFbTwEm != null){
-                val intentAct = Intent(this@SoloDetails, LiveChat::class.java)
+            } else if (acctFbTwEm != null) {
+                val intentAct = Intent(this@SoloDetails, LatestMessagesActivity::class.java)
                 intentAct.putExtra("nameOfComp", name)
                 startActivity(intentAct)
-            }
-            else{
+            } else {
                 Toast.makeText(applicationContext, "Please Login first", Toast.LENGTH_LONG).show()
                 val intentActLogin = Intent(this@SoloDetails, OpenId::class.java)
                 startActivity(intentActLogin)
