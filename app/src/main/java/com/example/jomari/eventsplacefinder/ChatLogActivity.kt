@@ -82,9 +82,9 @@ class ChatLogActivity : AppCompatActivity() {
                 dataSnapshot.getValue(ChatMessage::class.java)?.let {
                     if (it.fromId == FirebaseAuth.getInstance().uid) {
                         val currentUser = LatestMessagesActivity.currentUser ?: return
-                        adapter.add(ChatFromItem(it.text, currentUser, it.timestamp))
+                        adapter.add(ChatToItem(it.text, currentUser, it.timestamp))
                     } else {
-                        adapter.add(ChatToItem(it.text, toUser, it.timestamp))
+                        adapter.add(ChatFromItem(it.text, toUser, it.timestamp))
                     }
                 }
                 recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)

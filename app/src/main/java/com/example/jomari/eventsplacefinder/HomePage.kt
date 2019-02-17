@@ -123,6 +123,18 @@ class HomePage : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
+            R.id.messenger_btn -> {
+                val mProgressbar = ProgressDialog(this)
+                mProgressbar.setTitle("Redirecting to Live Chat")
+                mProgressbar.setMessage("Please wait..")
+                mProgressbar.show()
+                Handler().postDelayed({
+                    mProgressbar.dismiss()
+                    val intent = Intent(this, LatestMessagesActivity::class.java)
+                    startActivity(intent)
+                }, 1500)
+                super.onOptionsItemSelected(item)
+            }
             R.id.menu_sign_out -> {
                 val mProgressbar = ProgressDialog(this)
                 mProgressbar.setTitle("Signing Out!")

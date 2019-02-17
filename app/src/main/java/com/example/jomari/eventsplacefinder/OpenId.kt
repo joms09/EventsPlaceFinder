@@ -108,7 +108,7 @@ class OpenId : AppCompatActivity() {
         }
 
         val fbAndTwitter = user.currentUser
-        val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("company_email")
+        val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("isCompany")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
             }
@@ -117,7 +117,7 @@ class OpenId : AppCompatActivity() {
                 val email = p0.value.toString()
                 if (fbAndTwitter != null) {
 
-                    if (fbAndTwitter.email == email) {
+                    if (email == "yes") {
                         sign_in_button.visibility = View.GONE
                         login_button.visibility = View.GONE
                         loginButtonTwitter.visibility = View.GONE
@@ -191,7 +191,7 @@ class OpenId : AppCompatActivity() {
         mProgressbar.setMessage("Please wait..")
         mProgressbar.show()
 
-        val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("company_email").equalTo(email)
+        val ref = FirebaseDatabase.getInstance().getReference("companies").orderByChild("isCompany")
 
         ref.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
@@ -200,24 +200,23 @@ class OpenId : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 compEmail = p0.value.toString()
-                compPwd = p0.value.toString()
             }
 
         })
-        val mAuth = FirebaseAuth.getInstance()
-        mAuth.signInWithEmailAndPassword(email, password)
+
+        user.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful || (compEmail == email && compPwd == password)) {
+                if (compEmail == "yes") {
                     mProgressbar.dismiss()
-                    val currentCompany = mAuth.currentUser
+                    val currentCompany = user.currentUser
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
                     updateUI(currentCompany)
                     val startIntent = Intent(applicationContext, LatestMessagesActivity::class.java)
                     startActivity(startIntent)
                     finish()
-                } else if(task.isSuccessful){
+                } else if(compEmail!=email){
                     mProgressbar.dismiss()
-                    val currentCompany = mAuth.currentUser
+                    val currentCompany = user.currentUser
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
                     updateUI(currentCompany)
                     val startIntent = Intent(applicationContext, HomePage::class.java)

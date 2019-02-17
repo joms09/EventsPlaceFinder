@@ -134,6 +134,23 @@ class LatestMessagesActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+        saveUserToDatabase()
+    }
+
+    private fun saveUserToDatabase() {
+        val currentUser = user.currentUser
+        val uid = user.uid.toString()
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        val user = User(uid, currentUser?.displayName!!)
+
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("", "Finally we saved the user to Firebase Database")
+            }
+            .addOnFailureListener {
+                Log.d("", "Failed to set value to database: ${it.message}")
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
