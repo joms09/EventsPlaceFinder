@@ -64,9 +64,6 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-                android:name=".RegisterActivity"
-                android:theme="@style/AppTheme"/>
-        <activity
                 android:name=".FilterSearch"
                 android:theme="@style/AppTheme"/>
         <activity
@@ -104,8 +101,6 @@
         <activity android:name=".EventWorkshop"/>
         <activity android:name=".EventSeminar"/>
         <activity android:name=".EventOthers"/>
-        <activity android:name=".EventSem">
-        </activity>
         <activity android:name=".SoloDetails"/>
         <activity android:name=".EnterRatingsReviews"/>
         <activity android:name=".ChatLogActivity"/>

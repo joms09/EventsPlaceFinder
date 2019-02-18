@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,13 +27,6 @@ class AdvancedSearchResult : AppCompatActivity() {
         setContentView(R.layout.advance_search_result)
 
         supportActionBar?.title = "Search Results"
-
-        val mProgressbar = ProgressDialog(this)
-        mProgressbar.setTitle("Searching!")
-        mProgressbar.setMessage("Please wait..")
-        mProgressbar.show()
-        Handler().postDelayed({
-        }, 1500)
 
         val location = intent.getStringExtra("location")
         val pickstarttime = intent.getStringExtra("pickstarttime")
@@ -68,7 +62,8 @@ class AdvancedSearchResult : AppCompatActivity() {
                 adapter.setOnItemClickListener { item, view ->
                     val searchItem = item as SearchItem
                     val intent = Intent(view.context, SoloDetails::class.java)
-                    //intent.putExtra(USER_KEY, searchItem.result)
+                    intent.putExtra(USER_KEY, searchItem.result)
+                    intent.putExtra("id", resultRef.key)
                     startActivity(intent)
                     finish()
                 }

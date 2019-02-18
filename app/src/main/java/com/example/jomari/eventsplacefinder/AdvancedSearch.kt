@@ -485,6 +485,13 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 intent.putExtra("capacity1", capacity1)
                 intent.putExtra("event", event)
                 intent.putExtra("minibudget", minibudget)
+                val mProgressbar = ProgressDialog(this)
+                mProgressbar.setTitle("Searching!")
+                mProgressbar.setMessage("Please wait..")
+                mProgressbar.show()
+                Handler().postDelayed({
+                }, 1500)
+                mProgressbar.dismiss()
                 startActivity(intent)
             }
         }
