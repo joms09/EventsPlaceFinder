@@ -152,7 +152,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             "Wedding",
             "Corporate",
             "Party",
-            "Resto",
+            "Restaurant",
             "Sports",
             "Workshop",
             "Shoots",

@@ -34,7 +34,7 @@ class EventResto : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_event)
 
-        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("type").equalTo("Resto")
+        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("type").equalTo("Restaurant")
         mrecylerview = findViewById(R.id.reyclerview)
         mrecylerview.layoutManager = LinearLayoutManager(this)
         show_progress = findViewById(R.id.progress_bar)

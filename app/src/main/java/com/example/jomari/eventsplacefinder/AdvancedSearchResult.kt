@@ -61,10 +61,12 @@ class AdvancedSearchResult : AppCompatActivity() {
 
                 val adapter = GroupAdapter<ViewHolder>()
 
-                dataSnapshot.children.forEach {
+                dataSnapshot.children.forEach {data ->
                     @Suppress("NestedLambdaShadowedImplicitParameter")
-                    it.getValue(Model::class.java)?.let {
-                        adapter.add(SearchItem(it))
+                    data.getValue(Model::class.java)?.let {model ->
+                        val item = SearchItem(model)
+                        item.result.Id = data.key
+                        adapter.add(item)
                     }
                 }
 
