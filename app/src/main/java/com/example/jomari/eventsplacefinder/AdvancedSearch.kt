@@ -48,6 +48,14 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     lateinit var mProgressbar: ProgressDialog
     lateinit var maxBudget: EditText
 
+    var placeid : String = ""
+    var name : String = ""
+    var status : String = ""
+    var type : String = ""
+    var address : String = ""
+    var count : Int = 0
+    var image : String = ""
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
 
@@ -71,6 +79,14 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(R.layout.advance_search)
 
         mProgressbar = ProgressDialog(this)
+
+        placeid = intent.getStringExtra("id")
+        name = intent.getStringExtra("name")
+        status = intent.getStringExtra("status")
+        type = intent.getStringExtra("type")
+        address = intent.getStringExtra("address")
+        count = intent.getIntExtra("count", 0)
+        image = intent.getStringExtra("image")
 
 //        getLocationBtn.setOnClickListener {
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -479,6 +495,15 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             else -> {
                 val intent = Intent(this, AdvancedSearchResult::class.java)
+
+                intent.putExtra("id", placeid)
+                intent.putExtra("name", name)
+                intent.putExtra("status", status)
+                intent.putExtra("type", type)
+                intent.putExtra("address", address)
+                intent.putExtra("count", count)
+                intent.putExtra("image", image)
+
                 intent.putExtra("location", location)
                 intent.putExtra("pickstartdate", pickstartdate)
                 intent.putExtra("pickstarttime", pickstarttime)

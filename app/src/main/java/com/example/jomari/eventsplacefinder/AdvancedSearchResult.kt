@@ -21,12 +21,22 @@ class AdvancedSearchResult : AppCompatActivity() {
 
     val resultRef = FirebaseDatabase.getInstance().getReference("event")
 
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.advance_search_result)
 
         supportActionBar?.title = "Search Results"
+
+
+
+        val placeid = intent.getStringExtra("id")
+        val name = intent.getStringExtra("name")
+        val status = intent.getStringExtra("status")
+        val address = intent.getStringExtra("address")
+        val count = intent.getIntExtra("count", 0)
+        val image = intent.getStringExtra("image")
 
         val location = intent.getStringExtra("location")
         val pickstarttime = intent.getStringExtra("pickstarttime")
@@ -61,9 +71,15 @@ class AdvancedSearchResult : AppCompatActivity() {
 
                 adapter.setOnItemClickListener { item, view ->
                     val searchItem = item as SearchItem
-                    val intent = Intent(view.context, SoloDetails::class.java)
+                    val intent = Intent(view.context, SoloDetailsBySearch::class.java)
                     intent.putExtra(USER_KEY, searchItem.result)
-                    intent.putExtra("id", resultRef.key)
+                    intent.putExtra("id", placeid)
+                    intent.putExtra("name", name)
+                    intent.putExtra("status", status)
+                    intent.putExtra("type", type)
+                    intent.putExtra("address", address)
+                    intent.putExtra("count", count)
+                    intent.putExtra("image", image)
                     startActivity(intent)
                     finish()
                 }

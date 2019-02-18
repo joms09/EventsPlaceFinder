@@ -28,6 +28,8 @@ class EventBirthday : AppCompatActivity() {
     lateinit var mAlert: ImageButton
     lateinit var cardView: CardView
 
+    var placeid : String = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,10 +41,6 @@ class EventBirthday : AppCompatActivity() {
         mrecylerview.layoutManager = LinearLayoutManager(this)
         show_progress = findViewById(R.id.progress_bar)
         firebaseData()
-        filter.setOnClickListener {
-            val intent = Intent(this@EventBirthday, AdvancedSearch::class.java)
-            startActivity(intent)
-        }
     }
 
     fun firebaseData() {
@@ -58,7 +56,7 @@ class EventBirthday : AppCompatActivity() {
             }
 
             override fun onBindViewHolder(holder: MyViewHolder, position: Int, model: Model) {
-                val placeid = getRef(position).key.toString()
+                placeid = getRef(position).key.toString()
                 val event = FirebaseDatabase.getInstance().getReference("event").child(placeid)
 
                 show_progress.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
@@ -78,6 +76,18 @@ class EventBirthday : AppCompatActivity() {
                         intent.putExtra("image", model.Image)
                         startActivity(intent)
                     }
+                }
+
+                filter.setOnClickListener {
+                    val intent = Intent(this@EventBirthday, AdvancedSearch::class.java)
+                    intent.putExtra("id", placeid)
+                    intent.putExtra("name", model.Name)
+                    intent.putExtra("status", model.Status)
+                    intent.putExtra("type", model.Type)
+                    intent.putExtra("address", model.Address)
+                    intent.putExtra("count", model.Count)
+                    intent.putExtra("image", model.Image)
+                    startActivity(intent)
                 }
             }
         }
