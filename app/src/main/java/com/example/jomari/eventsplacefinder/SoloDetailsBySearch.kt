@@ -26,28 +26,31 @@ class SoloDetailsBySearch : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.solo_details)
+        val event = FirebaseDatabase.getInstance().getReference("event").child(toResult.Id!!)
+        event.child("count").setValue(toResult.Count + 1).addOnCompleteListener {
 
-        val intent = intent
-        id = intent.getStringExtra("id")
-        val name = intent.getStringExtra("name")
 
-        name_details.text = toResult.Name
-        status_details.text = toResult.Status
-        type_details.text = toResult.Type
-        address_details.text = toResult.Address
-        count_details.text = "" + toResult.Count
-        Picasso.get().load(toResult.Image).into(image_details)
+            val intent = intent
+            id = intent.getStringExtra("id")
 
+            name_details.text = toResult.Name
+            status_details.text = toResult.Status
+            type_details.text = toResult.Type
+            address_details.text = toResult.Address
+            count_details.text = "${toResult.Count}"
+            Picasso.get().load(toResult.Image).into(image_details)
+
+        }
 
         heroList = mutableListOf()
-        ref = FirebaseDatabase.getInstance().getReference("event").child(id).child("ratings&reviews")
+        ref = FirebaseDatabase.getInstance().getReference("event").child(toResult.Id!!).child("ratings&reviews")
 
         listView = findViewById(R.id.listView)
         chatBtn = findViewById(R.id.liveChatBtn)
 
         rate_review.setOnClickListener {
             val intent = Intent(this, EnterRatingsReviews::class.java)
-            intent.putExtra("id", id)
+            intent.putExtra("id", toResult.Id)
             startActivity(intent)
         }
 
@@ -57,11 +60,11 @@ class SoloDetailsBySearch : AppCompatActivity() {
 
             if (acct != null) {
                 val intentAct = Intent(this, LatestMessagesActivity::class.java)
-                intentAct.putExtra("nameOfComp", name)
+                intentAct.putExtra("nameOfComp", toResult.Name)
                 startActivity(intentAct)
             } else if (acctFbTwEm != null) {
                 val intentAct = Intent(this, LatestMessagesActivity::class.java)
-                intentAct.putExtra("nameOfComp", name)
+                intentAct.putExtra("nameOfComp", toResult.Name)
                 startActivity(intentAct)
             } else {
                 Toast.makeText(applicationContext, "Invalid Account", Toast.LENGTH_LONG).show()
