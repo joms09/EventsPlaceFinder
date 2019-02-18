@@ -124,6 +124,7 @@ class OpenId : AppCompatActivity() {
                         tv_name.text = fbAndTwitter.displayName
                         tv_name.visibility = View.VISIBLE
                         val intent = Intent(this@OpenId, LatestMessagesActivity::class.java)
+                        intent.putExtra("company", fbAndTwitter.displayName)
                         startActivity(intent)
                         finish()
                     } else {
@@ -133,6 +134,7 @@ class OpenId : AppCompatActivity() {
                         tv_name.text = fbAndTwitter.displayName
                         tv_name.visibility = View.VISIBLE
                         val intent = Intent(this@OpenId, HomePage::class.java)
+                        intent.putExtra("userLogged", fbAndTwitter.displayName)
                         startActivity(intent)
                         finish()
                     }
@@ -213,10 +215,11 @@ class OpenId : AppCompatActivity() {
                             finish()
                         } else if (task.isSuccessful || compEmail != email) {
                             mProgressbar.dismiss()
-                            val currentCompany = user.currentUser
+                            val currentUser = user.currentUser
                             Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
-                            updateUI(currentCompany)
+                            updateUI(currentUser)
                             val startIntent = Intent(applicationContext, HomePage::class.java)
+                            startIntent.putExtra("userLogged", currentUser?.displayName)
                             startActivity(startIntent)
                             finish()
                         } else {
@@ -293,10 +296,11 @@ class OpenId : AppCompatActivity() {
                     login_button.visibility = View.GONE
                     sign_in_button.visibility = View.GONE
                     loginButtonTwitter.visibility = View.GONE
-                    val user = auth.currentUser
+                    val user = user.currentUser
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
                     updateUI(user)
                     val intent = Intent(this, HomePage::class.java)
+                    intent.putExtra("company", user?.displayName)
                     startActivity(intent)
                     finish()
                 } else {
@@ -368,9 +372,10 @@ class OpenId : AppCompatActivity() {
                     sign_in_button.visibility = View.GONE
                     loginButtonTwitter.visibility = View.GONE
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
-                    val user = auth.currentUser
+                    val user = user.currentUser
                     updateUI(user)
                     val intent = Intent(this, HomePage::class.java)
+                    intent.putExtra("company", user?.displayName)
                     startActivity(intent)
                     finish()
                 } else {
@@ -411,9 +416,10 @@ class OpenId : AppCompatActivity() {
                     sign_in_button.visibility = View.GONE
                     loginButtonTwitter.visibility = View.GONE
                     Toast.makeText(baseContext, "Login successful.", Toast.LENGTH_SHORT).show()
-                    val user = auth.currentUser
+                    val user = user.currentUser
                     updateUI(user)
                     val intent = Intent(this, HomePage::class.java)
+                    intent.putExtra("company", user?.displayName)
                     startActivity(intent)
                     finish()
                 } else {

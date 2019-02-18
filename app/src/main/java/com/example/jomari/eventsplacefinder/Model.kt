@@ -7,18 +7,20 @@ class Model {
     var Status : String? = null
     var Type : String? = null
     var Count: Int = 0
+    var Address: String? = null
 
-    constructor():this("","","", "", "", 0) {
+    constructor():this("","","", "", "", 0, "") {
 
     }
 
 
-    constructor(Id: String?, Image: String?, Name: String?, Status: String?, Type : String?, Count: Int) {
+    constructor(Id: String?, Image: String?, Name: String?, Status: String?, Type : String?, Count: Int, Address: String) {
         this.Id = Id
         this.Image = Image
         this.Name = Name
         this.Status = Status
         this.Type = Type
         this.Count = Count
+        this.Address = Address
     }
 }

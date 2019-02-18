@@ -7,12 +7,15 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageButton
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.toolbar.*
+import models.User
 
 class HomePage : AppCompatActivity() {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -20,6 +23,8 @@ class HomePage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_homepage)
         setSupportActionBar(toolbar)
+
+        verifyUserIsLoggedIn()
 
 
         val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -99,6 +104,41 @@ class HomePage : AppCompatActivity() {
             startActivity(intent)
         }
 
+    }
+
+    private fun verifyUserIsLoggedIn() {
+        val intentFromSignIn = intent
+        val userLogged = intentFromSignIn.getStringExtra("userLogged")
+        if (userLogged != null) {
+            saveUserToDatabase()
+        }
+        val uid = FirebaseAuth.getInstance().uid
+        if (uid == null) {
+            Toast.makeText(this, "Invalid Account",Toast.LENGTH_LONG).show()
+            val intent = Intent(this, OpenId::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+
+    }
+
+    private fun saveUserToDatabase() {
+
+        val intent = intent
+        val currentUser = intent.getStringExtra("userLogged")
+        val uid = user.uid.toString()
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        if (currentUser != null) {
+            val user = User(uid, currentUser)
+
+            ref.setValue(user)
+                .addOnSuccessListener {
+                    Log.d("", "Finally we saved the user to Firebase Database")
+                }
+                .addOnFailureListener {
+                    Log.d("", "Failed to set value to database: ${it.message}")
+                }
+        }
     }
 
     private var doubleBackToExitPressedOnce = false

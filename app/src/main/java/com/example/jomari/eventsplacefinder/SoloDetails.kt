@@ -34,12 +34,14 @@ class SoloDetails : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val status = intent.getStringExtra("status")
         val type = intent.getStringExtra("type")
+        val address = intent.getStringExtra("address")
         val count = intent.getIntExtra("count", 0)
         val image = intent.getStringExtra("image")
 
         name_details.text = name
         status_details.text = status
         type_details.text = type
+        address_details.text = address
         count_details.text = "" + count
         Picasso.get().load(image).into(image_details)
 
