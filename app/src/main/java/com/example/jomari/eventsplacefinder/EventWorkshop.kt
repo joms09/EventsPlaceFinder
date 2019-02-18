@@ -15,6 +15,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_event.*
 
 class EventWorkshop : AppCompatActivity() {
 
@@ -81,6 +82,18 @@ class EventWorkshop : AppCompatActivity() {
                             intent.putExtra("image", model.Image)
                             startActivity(intent)
                         }
+                    }
+
+                    filter.setOnClickListener {
+                        val intent = Intent(this@EventWorkshop, AdvancedSearch::class.java)
+                        intent.putExtra("id", placeid)
+                        intent.putExtra("name", model.Name)
+                        intent.putExtra("status", model.Status)
+                        intent.putExtra("type", model.Type)
+                        intent.putExtra("address", model.Address)
+                        intent.putExtra("count", model.Count)
+                        intent.putExtra("image", model.Image)
+                        startActivity(intent)
                     }
                 }
             }

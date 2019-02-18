@@ -69,19 +69,19 @@ class AdvancedSearchResult : AppCompatActivity() {
                 }
 
                 adapter.setOnItemClickListener { item, view ->
-                        val searchItem = item as SearchItem
-                        val intent = Intent(view.context, SoloDetailsBySearch::class.java)
-                        intent.putExtra(USER_KEY, searchItem.result)
-                        intent.putExtra("id", placeid)
-                        intent.putExtra("name", name)
-                        intent.putExtra("status", status)
-                        intent.putExtra("type", type)
-                        intent.putExtra("address", address)
-                        intent.putExtra("count", count)
-                        intent.putExtra("image", image)
-                        startActivity(intent)
-                        finish()
-                    }
+                    val searchItem = item as SearchItem
+                    val intent = Intent(view.context, SoloDetailsBySearch::class.java)
+                    intent.putExtra(USER_KEY, searchItem.result)
+                    intent.putExtra("id", placeid)
+                    intent.putExtra("name", name)
+                    intent.putExtra("status", status)
+                    intent.putExtra("type", type)
+                    intent.putExtra("address", address)
+                    intent.putExtra("count", count)
+                    intent.putExtra("image", image)
+                    startActivity(intent)
+                    finish()
+                }
                 recyclerview_view_result.adapter = adapter
             }
         })
