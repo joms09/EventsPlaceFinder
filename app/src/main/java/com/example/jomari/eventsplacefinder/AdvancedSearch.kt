@@ -93,9 +93,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         getLocation = findViewById(R.id.btn_get_location)
         pickStartDate = findViewById(R.id.pickStartDateBtn)
-        pickEndDate = findViewById(R.id.pickEndDateBtn)
         pickStartTime = findViewById(R.id.timeStartBtn)
-        pickEndTime = findViewById(R.id.timeEndBtn)
         capacity = findViewById(R.id.capacity)
         eventType = findViewById(R.id.eventType)
         miniBudget = findViewById(R.id.miniBudget)
@@ -115,12 +113,6 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }, year, month, day)
             dpd.show()
         }
-        pickEndDate.setOnClickListener {
-            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
-                pickEndDate.text = "$mDay/${mMonth.plus(1)}/$mYear"
-            }, year, month, day)
-            dpd.show()
-        }
 
         pickStartTime.setOnClickListener {
             val cal = Calendar.getInstance()
@@ -128,17 +120,6 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 cal.set(Calendar.HOUR_OF_DAY, hour)
                 cal.set(Calendar.MINUTE, minute)
                 pickStartTime.text = SimpleDateFormat("HH:mm").format(cal.time)
-            }
-            TimePickerDialog(
-                this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false
-            ).show()
-        }
-        pickEndTime.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                cal.set(Calendar.HOUR_OF_DAY, hour)
-                cal.set(Calendar.MINUTE, minute)
-                pickEndTime.text = SimpleDateFormat("HH:mm").format(cal.time)
             }
             TimePickerDialog(
                 this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false
@@ -477,9 +458,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun submitForm() {
         val location = tv_result.text.toString().trim()
         val pickstartdate = pickStartDate.text.toString().trim()
-        val pickenddate = pickEndDate.text.toString().trim()
         val pickstarttime = pickStartTime.text.toString().trim()
-        val pickendtime = pickEndTime.text.toString().trim()
         val capacity1 = capacity.text.toString().trim()
         val event = eventType.selectedItem.toString().trim()
         val minibudget = miniBudget.text.toString().trim()
@@ -502,9 +481,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 val intent = Intent(this, AdvancedSearchResult::class.java)
                 intent.putExtra("location", location)
                 intent.putExtra("pickstartdate", pickstartdate)
-                intent.putExtra("pickenddate", pickenddate)
                 intent.putExtra("pickstarttime", pickstarttime)
-                intent.putExtra("pickendtime", pickendtime)
                 intent.putExtra("capacity1", capacity1)
                 intent.putExtra("event", event)
                 intent.putExtra("minibudget", minibudget)

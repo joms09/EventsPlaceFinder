@@ -115,7 +115,7 @@ class OpenId : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val email = p0.value.toString()
-                if (fbAndTwitter != null) {
+                if (fbAndTwitter != null && acct == null) {
 
                     if (email == "yes") {
                         sign_in_button.visibility = View.GONE

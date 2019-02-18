@@ -63,7 +63,7 @@
                 android:layout_height="match_parent">
 
             <Button
-                    android:text="@string/pickStartTime"
+                    android:text="@string/time"
                     android:layout_width="170dp"
                     android:textSize="@dimen/fontsize"
                     android:layout_height="wrap_content"
@@ -72,40 +72,15 @@
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"/>
             <Button
-                    android:text="@string/pickEndTime"
-                    android:layout_width="170dp"
-                    android:textSize="@dimen/fontsize"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/timeEndBtn"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginStart="12dp"
-            />
-
-        </RelativeLayout>
-        <RelativeLayout
-                android:layout_marginTop="12dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <Button
-                    android:text="@string/pickStartDate"
+                    android:text="@string/date"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/fontsize"
                     android:id="@+id/pickStartDateBtn"
-                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"/>
-            <Button
-                    android:text="@string/pickEndDate"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/fontsize"
-                    android:layout_alignParentEnd="true"
-                    android:id="@+id/pickEndDateBtn"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-            />
+
         </RelativeLayout>
 
         <EditText
