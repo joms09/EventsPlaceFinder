@@ -11,9 +11,11 @@ data class Model(var Id : String? = null,
             var Status : String? = null,
             var Type : String? = null,
             var Count: Int = 0,
-            var Address: String? = null
+            var Address: String? = null,
+            var Phone : String? = null,
+            var Cpnumber : String? =null
 ) : Parcelable {
 
 
-    constructor(): this("","","", "", "", 0, "")
+    constructor(): this("","","", "", "", 0, "", "")
 }

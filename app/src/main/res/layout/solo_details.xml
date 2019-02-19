@@ -41,6 +41,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/address_details"
                 android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/phoneNumber"
+                android:layout_gravity="center"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cp_number"
+                android:layout_gravity="center"/>
 
         <TextView
                 android:layout_width="wrap_content"

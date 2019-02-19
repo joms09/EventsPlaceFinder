@@ -35,6 +35,8 @@ class SoloDetailsBySearch : AppCompatActivity() {
             status_details.text = toResult.Status
             type_details.text = toResult.Type
             address_details.text = toResult.Address
+            phoneNumber.text = toResult.Phone
+            cp_number.text = toResult.Cpnumber
             count_details.text = "${toResult.Count.plus(1)}"
             Picasso.get().load(toResult.Image).into(image_details)
         }
