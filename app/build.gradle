@@ -80,6 +80,7 @@ dependencies {
     implementation 'com.github.mancj:MaterialSearchBar:0.7.6'
     implementation 'com.xwray:groupie:2.1.0'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.google.firebase:firebase-firestore:18.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
