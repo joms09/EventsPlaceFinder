@@ -65,7 +65,7 @@ class ReviewsRatingsAdapter(val mCtx: Context, val layoutResId: Int, val heroLis
 
         builder.setView(view)
 
-        builder.setPositiveButton("View") { p0, p1 ->
+        builder.setPositiveButton("Update") { p0, p1 ->
             val dbHero = FirebaseDatabase.getInstance().getReference("event").child(id).child("ratings&reviews")
             val user = FirebaseDatabase.getInstance().getReference("event").child(id)
                 .child("ratings&reviews").child(rr.id.toString()).child("email")
@@ -74,7 +74,7 @@ class ReviewsRatingsAdapter(val mCtx: Context, val layoutResId: Int, val heroLis
             val reviews = editText.text.toString().trim()
 
             if (reviews.isEmpty()) {
-                editText.error = "Please enter a name"
+                editText.error = "Please enter a review"
                 editText.requestFocus()
                 return@setPositiveButton
             }
