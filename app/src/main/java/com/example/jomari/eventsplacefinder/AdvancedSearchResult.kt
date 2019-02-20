@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -98,6 +100,15 @@ class SearchItem(val result: Model) : Item<ViewHolder>() {
     override fun bind(viewHolder: ViewHolder, position: Int) {
         viewHolder.itemView.textview_event_type.text = result.Type
         viewHolder.itemView.textview_event_name.text = result.Name
+        if (!result.Image!!.isEmpty()) {
+            val requestOptions = RequestOptions().placeholder(R.drawable.no_image2)
+
+            Glide.with(viewHolder.itemView.imageview_event.context)
+                .load(result.Image)
+                .thumbnail(0.1f)
+                .apply(requestOptions)
+                .into(viewHolder.itemView.imageview_event)
+        }
     }
 
     override fun getLayout(): Int {

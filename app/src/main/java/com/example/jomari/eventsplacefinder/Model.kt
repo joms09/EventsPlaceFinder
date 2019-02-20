@@ -22,6 +22,7 @@ data class Model(
     var MinPrice : String? = null,
     var bHours : String? =  null
 
+
 ) : Parcelable {
 
 
