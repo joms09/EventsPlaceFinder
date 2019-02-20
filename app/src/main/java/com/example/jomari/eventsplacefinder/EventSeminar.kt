@@ -85,26 +85,6 @@ class EventSeminar : AppCompatActivity() {
                         startActivity(intent)
                     }
                 }
-
-                filter.setOnClickListener {
-                    val intent = Intent(this@EventSeminar, AdvancedSearch::class.java)
-                    intent.putExtra("id", placeid)
-                    intent.putExtra("name", model.Name)
-                    intent.putExtra("status", model.Status)
-                    intent.putExtra("type", model.Type)
-                    intent.putExtra("address", model.Address)
-                    intent.putExtra("phone", model.Phone)
-                    intent.putExtra("cpnumber", model.Cpnumber)
-                    intent.putExtra("count", model.Count)
-                    intent.putExtra("image", model.Image)
-                    intent.putExtra("eventDescription", model.EventDescription)
-                    intent.putExtra("amenities", model.Amenities)
-                    intent.putExtra("maxPeople", model.MaxPeople)
-                    intent.putExtra("minPeople", model.MinPeople)
-                    intent.putExtra("minPrice", model.MinPrice)
-                    intent.putExtra("bHours", model.bHours)
-                    startActivity(intent)
-                }
             }
         }
         mrecylerview.adapter = firebaseRecyclerAdapter

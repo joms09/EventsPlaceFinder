@@ -26,7 +26,6 @@ class SoloDetailsBySearch : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.solo_details)
-        val id = intent.getStringExtra("id")
 
         val event = FirebaseDatabase.getInstance().getReference("event").child(toResult.Id!!)
         event.child("count").setValue(toResult.Count + 1).addOnCompleteListener {

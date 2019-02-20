@@ -49,7 +49,7 @@
 
                     <ImageButton
                             android:id="@+id/event_birthday"
-                            android:src="@drawable/event_birthday_icon"
+                            android:src="@drawable/birthday"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:contentDescription="@string/todo"/>
@@ -80,7 +80,7 @@
 
                     <ImageButton
                             android:id="@+id/event_wedding"
-                            android:src="@drawable/event_wedding_icon"
+                            android:src="@drawable/wedding"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
 
                     <ImageButton
                             android:id="@+id/event_corporate"
-                            android:src="@drawable/event_corporate_icon"
+                            android:src="@drawable/corporate"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
 
                     <ImageButton
                             android:id="@+id/event_party"
-                            android:src="@drawable/event_party_icon"
+                            android:src="@drawable/party"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
 
                     <ImageButton
                             android:id="@+id/event_resto"
-                            android:src="@drawable/event_resto_icon"
+                            android:src="@drawable/restaurant"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
 
                     <ImageButton
                             android:id="@+id/event_sports"
-                            android:src="@drawable/event_sports_icon"
+                            android:src="@drawable/sports"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
 
                     <ImageButton
                             android:id="@+id/event_shoots"
-                            android:src="@drawable/event_workshop_icon"
+                            android:src="@drawable/workshop"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
 
                     <ImageButton
                             android:id="@+id/event_workshop"
-                            android:src="@drawable/event_shoots_icon"
+                            android:src="@drawable/shoots"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -294,7 +294,7 @@
 
                     <ImageButton
                             android:id="@+id/event_seminar"
-                            android:src="@drawable/event_seminar_icon"
+                            android:src="@drawable/seminar"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -326,7 +326,7 @@
 
                     <ImageButton
                             android:id="@+id/event_others"
-                            android:src="@drawable/event_others_icon"
+                            android:src="@drawable/others"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

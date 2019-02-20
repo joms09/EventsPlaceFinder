@@ -10,7 +10,6 @@
             android:id="@+id/reyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
             android:layout_alignParentTop="true"/>
 
     <ProgressBar
@@ -27,12 +26,4 @@
             android:layout_marginStart="168dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="168dp"/>
-    <Button
-            android:text="@string/filter_search"
-            android:textStyle="bold"
-            android:fontFamily="monospace"
-            android:layout_width="236dp"
-            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true" android:id="@+id/filter" android:layout_marginTop="7dp"
-            android:textSize="18sp"/>
 </RelativeLayout>
