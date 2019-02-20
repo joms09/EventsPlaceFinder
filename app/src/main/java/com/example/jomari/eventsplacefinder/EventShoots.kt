@@ -76,6 +76,12 @@ class EventShoots : AppCompatActivity() {
                         intent.putExtra("cpnumber", model.Cpnumber)
                         intent.putExtra("count", model.Count + 1)
                         intent.putExtra("image", model.Image)
+                        intent.putExtra("eventDescription", model.EventDescription)
+                        intent.putExtra("amenities", model.Amenities)
+                        intent.putExtra("maxPeople", model.MaxPeople)
+                        intent.putExtra("minPeople", model.MinPeople)
+                        intent.putExtra("minPrice", model.MinPrice)
+                        intent.putExtra("bHours", model.bHours)
                         startActivity(intent)
                     }
                 }
@@ -91,6 +97,12 @@ class EventShoots : AppCompatActivity() {
                     intent.putExtra("cpnumber", model.Cpnumber)
                     intent.putExtra("count", model.Count)
                     intent.putExtra("image", model.Image)
+                    intent.putExtra("eventDescription", model.EventDescription)
+                    intent.putExtra("amenities", model.Amenities)
+                    intent.putExtra("maxPeople", model.MaxPeople)
+                    intent.putExtra("minPeople", model.MinPeople)
+                    intent.putExtra("minPrice", model.MinPrice)
+                    intent.putExtra("bHours", model.bHours)
                     startActivity(intent)
                 }
             }

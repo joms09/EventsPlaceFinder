@@ -5,8 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.widget.Toast
 import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
@@ -50,68 +54,44 @@ class AdvancedSearchResult : AppCompatActivity() {
         eventLabel.text = type
         minibudgetLabel.text = minibudget
 
-        val ref = db.collection("event")
-        //ref.whereGreaterThanOrEqualTo("min_price", minibudget).whereLessThanOrEqualTo("max_people", capacity1)
-        //val ref3 = db.collection("event").whereLessThanOrEqualTo("min_price", minibudget)
+        val filterResult = resultRef.orderByChild("type").equalTo(type)
+        filterResult.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(databaseError: DatabaseError) {
 
-        ref.get().addOnSuccessListener { results ->
-            val adapter = GroupAdapter<ViewHolder>()
-            results.documents.forEach { snapshot ->
-                val typeData = snapshot["type"].toString()
-                val minPrice = snapshot["min_price"].toString()
-                val maxPeople = snapshot["max_people"].toString()
-
-                if (typeData == type) {
-                    if (minPrice >= minibudget) {
-                        val model = snapshot.toObject(Model::class.java)
-                        model?.let {
-                            it.Id = snapshot.id
-                            val item = SearchItem(it)
-                            adapter.add(item)
-                            Log.d("tag", "PUMASOK SA SAME EVENT AT PRICE TRUE CONDITION")
-                        }
-                    } else if (maxPeople <= capacity1) {
-                        val model = snapshot.toObject(Model::class.java)
-                        model?.let {
-                            it.Id = snapshot.id
-                            val item = SearchItem(it)
-                            adapter.add(item)
-                            Log.d("tag", "PUMASOK SA SAME EVENT AT PEOPLE TRUE CONDITION")
-                        }
-                    }
-                }
-                if (minPrice >= minibudget) {
-                    if (maxPeople <= capacity1) {
-                        val model = snapshot.toObject(Model::class.java)
-                        model?.let {
-                            it.Id = snapshot.id
-                            val item = SearchItem(it)
-                            adapter.add(item)
-                            Log.d("tag", "PUMASOK SA PRICE TRUE CONDITION AT PEOPLE TRUE CONDITION")
-                        }
-                    }
-                }
             }
 
-            adapter.setOnItemClickListener { item, view ->
-                val searchItem = item as SearchItem
-                val intent = Intent(view.context, SoloDetailsBySearch::class.java)
-                intent.putExtra(USER_KEY, searchItem.result)
-                intent.putExtra("id", placeid)
-                intent.putExtra("name", name)
-                intent.putExtra("status", status)
-                intent.putExtra("type", type)
-                intent.putExtra("address", address)
-                intent.putExtra("count", count)
-                intent.putExtra("image", image)
-                startActivity(intent)
-                finish()
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                val adapter = GroupAdapter<ViewHolder>()
+
+                dataSnapshot.children.forEach { data ->
+                    @Suppress("NestedLambdaShadowedImplicitParameter")
+                    data.getValue(Model::class.java)?.let { model ->
+                        val item = SearchItem(model)
+                        item.result.Id = data.key
+                        adapter.add(item)
+                    }
+                }
+
+                adapter.setOnItemClickListener { item, view ->
+                    val searchItem = item as SearchItem
+                    val intent = Intent(view.context, SoloDetailsBySearch::class.java)
+                    intent.putExtra(USER_KEY, searchItem.result)
+                    intent.putExtra("id", placeid)
+                    intent.putExtra("name", name)
+                    intent.putExtra("status", status)
+                    intent.putExtra("type", type)
+                    intent.putExtra("address", address)
+                    intent.putExtra("count", count)
+                    intent.putExtra("image", image)
+                    startActivity(intent)
+                    finish()
+                }
+                recyclerview_view_result.adapter = adapter
             }
-            recyclerview_view_result.adapter = adapter
-        }
+        })
     }
 }
-
 
 class SearchItem(val result: Model) : Item<ViewHolder>() {
 

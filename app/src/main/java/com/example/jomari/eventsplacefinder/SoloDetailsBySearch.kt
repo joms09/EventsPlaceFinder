@@ -32,13 +32,17 @@ class SoloDetailsBySearch : AppCompatActivity() {
         event.child("count").setValue(toResult.Count + 1).addOnCompleteListener {
 
             name_details.text = toResult.Name
-            status_details.text = toResult.Status
             type_details.text = toResult.Type
             address_details.text = toResult.Address
-            phoneNumber.text = toResult.Phone
-            cp_number.text = toResult.Cpnumber
             count_details.text = "${toResult.Count.plus(1)}"
             Picasso.get().load(toResult.Image).into(image_details)
+            description_details.text = toResult.EventDescription
+            amenities_details.text = toResult.Amenities
+            max_people_details.text = toResult.MaxPeople
+            min_people_details.text = toResult.MinPeople
+            min_price_details.text = toResult.MinPrice
+            bHours_details.text = toResult.bHours
+
         }
 
         heroList = mutableListOf()

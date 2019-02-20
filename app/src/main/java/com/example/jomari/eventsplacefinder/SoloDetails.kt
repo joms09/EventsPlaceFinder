@@ -32,22 +32,30 @@ class SoloDetails : AppCompatActivity() {
         val intent = intent
         id = intent.getStringExtra("id")
         val name = intent.getStringExtra("name")
-        val status = intent.getStringExtra("status")
         val type = intent.getStringExtra("type")
-        val phone = intent.getStringExtra("phone")
-        val cpNumber = intent.getStringExtra("cpnumber")
         val address = intent.getStringExtra("address")
         val count = intent.getIntExtra("count", 0)
         val image = intent.getStringExtra("image")
+        val description = intent.getStringExtra("eventDescription")
+        val amenities = intent.getStringExtra("amenities")
+        val maxPeople = intent.getStringExtra("maxPeople")
+        val minPeople = intent.getStringExtra("minPeople")
+        val minPrice = intent.getStringExtra("minPrice")
+        val bHours = intent.getStringExtra("bHours")
+
 
         name_details.text = name
-        status_details.text = status
         type_details.text = type
         address_details.text = address
-        phoneNumber.text = phone
-        cp_number.text = cpNumber
         count_details.text = "" + count
         Picasso.get().load(image).into(image_details)
+        description_details.text = description
+        amenities_details.text = amenities
+        max_people_details.text = maxPeople
+        min_people_details.text = minPeople
+        min_price_details.text = minPrice
+        bHours_details.text = bHours
+
 
 
         heroList = mutableListOf()
