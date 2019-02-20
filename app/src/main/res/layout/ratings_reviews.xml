@@ -15,8 +15,8 @@
 
     <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
+            android:layout_height="100dp"
+            android:inputType="text|textMultiLine"
             android:ems="10"
             android:layout_marginTop="20dp"
             android:hint="@string/enter_your_reviews"
