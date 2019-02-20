@@ -3,6 +3,7 @@ package com.example.jomari.eventsplacefinder
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.renderscript.Sampler
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -19,14 +20,15 @@ import kotlinx.android.synthetic.main.activity_event.*
 
 class EventResto : AppCompatActivity() {
 
-    lateinit var mrecylerview : RecyclerView
+    lateinit var mrecylerview: RecyclerView
     lateinit var ref: Query
     lateinit var refCount: DatabaseReference
     lateinit var show_progress: ProgressBar
 
-    lateinit var mAlert : ImageButton
-
+    lateinit var mAlert: ImageButton
     lateinit var cardView: CardView
+
+    var placeid : String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,14 +49,14 @@ class EventResto : AppCompatActivity() {
             .setLifecycleOwner(this)
             .build()
 
-        val firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Model, com.example.jomari.eventsplacefinder.MyViewHolder>(option) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): com.example.jomari.eventsplacefinder.MyViewHolder {
+        val firebaseRecyclerAdapter = object : FirebaseRecyclerAdapter<Model, MyViewHolder>(option) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
                 val itemView = LayoutInflater.from(this@EventResto).inflate(R.layout.card_view, parent, false)
-                return com.example.jomari.eventsplacefinder.MyViewHolder(itemView)
+                return MyViewHolder(itemView)
             }
 
-            override fun onBindViewHolder(holder: com.example.jomari.eventsplacefinder.MyViewHolder, position: Int, model: Model) {
-                val placeid = getRef(position).key.toString()
+            override fun onBindViewHolder(holder: MyViewHolder, position: Int, model: Model) {
+                placeid = getRef(position).key.toString()
                 val event = FirebaseDatabase.getInstance().getReference("event").child(placeid)
 
                 show_progress.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
@@ -95,11 +97,5 @@ class EventResto : AppCompatActivity() {
         }
         mrecylerview.adapter = firebaseRecyclerAdapter
         firebaseRecyclerAdapter.startListening()
-    }
-
-    class MyViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-
-        internal var txt_name: TextView = itemView!!.findViewById<TextView>(R.id.Display_title)
-        internal var img_vet: ImageButton = itemView!!.findViewById<ImageButton>(R.id.Display_img)
     }
 }

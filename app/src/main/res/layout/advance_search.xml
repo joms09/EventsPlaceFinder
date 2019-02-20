@@ -25,6 +25,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:textStyle="bold"
+                android:fontFamily="monospace"
                 android:textColor="@android:color/black"
                 android:textSize="25sp"/>
         <RelativeLayout
@@ -47,6 +48,8 @@
                     android:gravity="center"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
                     android:text="@string/get_location"/>
         </RelativeLayout>
         <TextView
@@ -69,6 +72,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/timeStartBtn"
                     android:layout_alignParentStart="true"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"/>
             <Button
@@ -78,6 +83,8 @@
                     android:textSize="@dimen/fontsize"
                     android:id="@+id/pickStartDateBtn"
                     android:layout_alignParentEnd="true"
+                    android:textStyle="bold"
+                    android:fontFamily="monospace"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"/>
 
@@ -184,6 +191,8 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:layout_gravity="center"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
                 android:layout_marginTop="12dp"/>
 
 

@@ -53,6 +53,7 @@
         android:id="@+id/textViewUpdate"
         android:text="View"
         android:textStyle="bold"
+        android:fontFamily="monospace"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

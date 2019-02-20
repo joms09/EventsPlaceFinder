@@ -55,46 +55,54 @@
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:ems="10"
+            android:fontFamily="sans-serif-light"
             android:autofillHints="@string/email"
             android:id="@+id/email_tv" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="24dp" android:layout_marginTop="36dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="24dp" android:layout_marginTop="48dp" app:layout_constraintTop_toTopOf="parent"
             android:hint="@string/sample_email"/>
     <TextView
             android:text="@string/email"
+            android:fontFamily="sans-serif-light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView" tools:text="Email:"
             android:textSize="24sp"
-            android:layout_marginTop="48dp" app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="60dp" app:layout_constraintTop_toTopOf="parent"
             android:layout_marginEnd="8dp" app:layout_constraintEnd_toStartOf="@+id/email_tv"
-            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.353"/>
     <TextView
             android:text="@string/password"
+            android:fontFamily="sans-serif-light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/textView18" tools:text="Password:"
             android:textSize="24sp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView" android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/password_tv"/>
+            app:layout_constraintEnd_toStartOf="@+id/password_tv" app:layout_constraintHorizontal_bias="0.444"/>
     <Button
             android:text="@string/submit"
-            android:layout_width="168dp"
+            android:textStyle="bold"
+            android:fontFamily="monospace"
+            android:layout_width="193dp"
             android:layout_height="41dp"
             android:id="@+id/submit_button"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.585" android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.585" android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/password_tv"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:fontFamily="sans-serif-light"
             android:ems="10"
             android:autofillHints="@string/sample_password"
             android:id="@+id/password_tv"
-            android:hint="@string/sample_password" android:layout_marginTop="4dp" app:layout_constraintTop_toBottomOf="@+id/email_tv"
+            android:hint="@string/sample_password" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/email_tv"
             android:layout_marginEnd="24dp" app:layout_constraintEnd_toEndOf="parent"/>
 
 
