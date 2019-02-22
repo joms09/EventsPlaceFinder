@@ -60,31 +60,44 @@ class EventParty : AppCompatActivity() {
                 val event = FirebaseDatabase.getInstance().getReference("event").child(placeid)
 
                 show_progress.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
-                holder.txt_name.text = model.Name
-                Picasso.get().load(model.Image).into(holder.img_vet)
-
-                holder.img_vet.setOnClickListener {
-
-                    event.child("count").setValue(model.Count + 1).addOnCompleteListener {
-                        val intent = Intent(this@EventParty, SoloDetails::class.java)
-                        intent.putExtra("id", placeid)
-                        intent.putExtra("name", model.Name)
-                        intent.putExtra("status", model.Status)
-                        intent.putExtra("type", model.Type)
-                        intent.putExtra("address", model.Address)
-                        intent.putExtra("phone", model.Phone)
-                        intent.putExtra("cpnumber", model.Cpnumber)
-                        intent.putExtra("count", model.Count + 1)
-                        intent.putExtra("image", model.Image)
-                        intent.putExtra("eventDescription", model.EventDescription)
-                        intent.putExtra("amenities", model.Amenities)
-                        intent.putExtra("maxPeople", model.MaxPeople)
-                        intent.putExtra("minPeople", model.MinPeople)
-                        intent.putExtra("minPrice", model.MinPrice)
-                        intent.putExtra("bHours", model.bHours)
-                        startActivity(intent)
+                event.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
                     }
-                }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val status = p0.child("eventStatus").value
+                        if (status == "Verified") {
+                            holder.txt_name.text = model.Name
+                            Picasso.get().load(model.Image).into(holder.img_vet)
+                            holder.img_vet.setOnClickListener {
+
+                                event.child("count").setValue(model.Count + 1).addOnCompleteListener {
+                                    val intent = Intent(this@EventParty, SoloDetails::class.java)
+                                    intent.putExtra("id", placeid)
+                                    intent.putExtra("name", model.Name)
+                                    intent.putExtra("type", model.Type)
+                                    intent.putExtra("address", model.Address)
+                                    intent.putExtra("count", model.Count + 1)
+                                    intent.putExtra("image", model.Image)
+                                    intent.putExtra("eventDescription", model.EventDescription)
+                                    intent.putExtra("amenities", model.Amenities)
+                                    intent.putExtra("maxPeople", model.MaxPeople)
+                                    intent.putExtra("minPeople", model.MinPeople)
+                                    intent.putExtra("minPrice", model.MinPrice)
+                                    intent.putExtra("bHours", model.bHours)
+                                    startActivity(intent)
+                                }
+                            }
+                        } else {
+                            holder.txt_name.visibility = View.GONE
+                            holder.img_vet.visibility = View.GONE
+                            if (holder.equals(0)) {
+                                holder.img_vet.visibility = View.GONE
+                                noresult.text = "No Results Found"
+                            }
+                        }
+                    }
+                })
             }
         }
         mrecylerview.adapter = firebaseRecyclerAdapter

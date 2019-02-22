@@ -83,14 +83,15 @@ class AdvancedSearchResult : AppCompatActivity() {
                         val maxPeopleFromDb = model.MaxPeople
                         val minPeopleFromDb = model.MinPeople
                         val minPriceFromDb = model.MinPrice
-                        val ameFromDb = model.Amenities
-
-                        if (typeFromDb == type) {
-                            if (maxPeopleFromDb.toString() >= capacity1 && minPeopleFromDb.toString() <= capacity1) {
-                                if (minPriceFromDb.toString() <= minibudget) {
-                                    val item = SearchItem(model)
-                                    item.result.Id = data.key
-                                    adapter.add(item)
+                        val eventStatus = model.eventStatus
+                        if (eventStatus == "Verified") {
+                            if (typeFromDb == type) {
+                                if (maxPeopleFromDb.toString() >= capacity1 && minPeopleFromDb.toString() <= capacity1) {
+                                    if (minPriceFromDb.toString() <= minibudget) {
+                                        val item = SearchItem(model)
+                                        item.result.Id = data.key
+                                        adapter.add(item)
+                                    }
                                 }
                             }
                         }
