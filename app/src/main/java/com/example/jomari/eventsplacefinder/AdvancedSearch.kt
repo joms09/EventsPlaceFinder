@@ -38,23 +38,13 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     lateinit var getLocation: Button
-    lateinit var pickStartDate: Button
-    lateinit var pickEndDate: Button
-    lateinit var pickStartTime: Button
-    lateinit var pickEndTime: Button
+//    lateinit var pickStartDate: Button
+//    lateinit var pickStartTime: Button
     lateinit var capacity: EditText
     lateinit var eventType: Spinner
+    lateinit var amenitiesSpin: Spinner
     lateinit var miniBudget: EditText
     lateinit var mProgressbar: ProgressDialog
-    lateinit var maxBudget: EditText
-
-    var placeid : String = ""
-    var name : String = ""
-    var status : String = ""
-    var type : String = ""
-    var address : String = ""
-    var count : Int = 0
-    var image : String = ""
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
     }
@@ -80,37 +70,11 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         mProgressbar = ProgressDialog(this)
 
-        placeid = intent.getStringExtra("id")
-        name = intent.getStringExtra("name")
-        status = intent.getStringExtra("status")
-        type = intent.getStringExtra("type")
-        address = intent.getStringExtra("address")
-        count = intent.getIntExtra("count", 0)
-        image = intent.getStringExtra("image")
-
-//        getLocationBtn.setOnClickListener {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
-//                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED
-//                ) {
-//                    //permission was not enabled
-//                    val permission = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                    requestPermissions(permission, PERMISSION_CODE)
-//                } else {
-//                    //permission already granted
-//                    openCamera()
-//                }
-//            } else {
-//                //system os is < marshmallow
-//                openCamera()
-//            }
-//        }
-
-
         getLocation = findViewById(R.id.btn_get_location)
-        pickStartDate = findViewById(R.id.pickStartDateBtn)
-        pickStartTime = findViewById(R.id.timeStartBtn)
+//        pickStartDate = findViewById(R.id.pickStartDateBtn)
+//        pickStartTime = findViewById(R.id.timeStartBtn)
         capacity = findViewById(R.id.capacity)
+        amenitiesSpin = findViewById(R.id.amenitiesSpinner)
         eventType = findViewById(R.id.eventType)
         miniBudget = findViewById(R.id.miniBudget)
 
@@ -123,24 +87,47 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        pickStartDate.setOnClickListener {
-            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
-                pickStartDate.text = "$mDay/${mMonth.plus(1)}/$mYear"
-            }, year, month, day)
-            dpd.show()
-        }
+//        pickStartDate.setOnClickListener {
+//            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { _, mYear, mMonth, mDay ->
+//                pickStartDate.text = "$mDay/${mMonth.plus(1)}/$mYear"
+//            }, year, month, day)
+//            dpd.show()
+//        }
+//
+//        pickStartTime.setOnClickListener {
+//            val cal = Calendar.getInstance()
+//            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+//                cal.set(Calendar.HOUR_OF_DAY, hour)
+//                cal.set(Calendar.MINUTE, minute)
+//                pickStartTime.text = SimpleDateFormat("HH:mm").format(cal.time)
+//            }
+//            TimePickerDialog(
+//                this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false
+//            ).show()
+//        }
 
-        pickStartTime.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val timeSetListener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
-                cal.set(Calendar.HOUR_OF_DAY, hour)
-                cal.set(Calendar.MINUTE, minute)
-                pickStartTime.text = SimpleDateFormat("HH:mm").format(cal.time)
-            }
-            TimePickerDialog(
-                this, timeSetListener, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE), false
-            ).show()
-        }
+        val amenitiesSpinner: Spinner?
+
+        amenitiesSpinner = this.amenitiesSpin
+        amenitiesSpinner.onItemSelectedListener = this
+
+        val amenities = arrayOf(
+            "Wifi",
+            "Function Room",
+            "Parking",
+            "Refrigerator",
+            "Discounts and Promo",
+            "Food",
+            "Smoking area",
+            "Microphone",
+            "Projector/TV",
+            "Pool",
+            "Air Conditioning"
+        )
+
+        val bb = ArrayAdapter(this, android.R.layout.simple_spinner_item, amenities)
+        bb.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        amenitiesSpinner.adapter = bb
 
         val spinner: Spinner?
 
@@ -473,16 +460,16 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun submitForm() {
         val location = tv_result.text.toString().trim()
-        val pickstartdate = pickStartDate.text.toString().trim()
-        val pickstarttime = pickStartTime.text.toString().trim()
+//        val pickstartdate = pickStartDate.text.toString().trim()
+//        val pickstarttime = pickStartTime.text.toString().trim()
         val capacity1 = capacity.text.toString().trim()
         val event = eventType.selectedItem.toString().trim()
+        val amenities = amenitiesSpin.selectedItem.toString().trim()
         val minibudget = miniBudget.text.toString().trim()
 
         when {
             location.isEmpty() -> {
-                tv_result.text = getString(R.string.plsgeturlocation)
-                tv_result.setTextColor(Color.RED)
+                Toast.makeText(this, R.string.plsgeturlocation, Toast.LENGTH_LONG).show()
                 return
             }
             capacity1.isEmpty() -> {
@@ -496,17 +483,10 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             else -> {
                 val intent = Intent(this, AdvancedSearchResult::class.java)
 
-                intent.putExtra("id", placeid)
-                intent.putExtra("name", name)
-                intent.putExtra("status", status)
-                intent.putExtra("type", type)
-                intent.putExtra("address", address)
-                intent.putExtra("count", count)
-                intent.putExtra("image", image)
-
+                intent.putExtra("amenities", amenities)
                 intent.putExtra("location", location)
-                intent.putExtra("pickstartdate", pickstartdate)
-                intent.putExtra("pickstarttime", pickstarttime)
+//                intent.putExtra("pickstartdate", pickstartdate)
+//                intent.putExtra("pickstarttime", pickstarttime)
                 intent.putExtra("capacity1", capacity1)
                 intent.putExtra("event", event)
                 intent.putExtra("minibudget", minibudget)
@@ -518,6 +498,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }, 1500)
                 mProgressbar.dismiss()
                 startActivity(intent)
+                finish()
             }
         }
     }

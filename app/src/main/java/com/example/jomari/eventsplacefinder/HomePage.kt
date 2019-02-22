@@ -114,7 +114,7 @@ class HomePage : AppCompatActivity() {
         }
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
-            Toast.makeText(this, "Invalid Account",Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Invalid Account", Toast.LENGTH_LONG).show()
             val intent = Intent(this, OpenId::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
@@ -161,6 +161,11 @@ class HomePage : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {
+            R.id.search_btn -> {
+                val intent = Intent(this, AdvancedSearch::class.java)
+                startActivity(intent)
+                super.onOptionsItemSelected(item)
+            }
             R.id.messenger_btn -> {
                 val mProgressbar = ProgressDialog(this)
                 mProgressbar.setTitle("Redirecting to Live Chat")

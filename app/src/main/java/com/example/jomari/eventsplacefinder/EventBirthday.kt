@@ -7,6 +7,7 @@ import android.renderscript.Sampler
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,25 +70,18 @@ class EventBirthday : AppCompatActivity() {
                         val intent = Intent(this@EventBirthday, SoloDetails::class.java)
                         intent.putExtra("id", placeid)
                         intent.putExtra("name", model.Name)
-                        intent.putExtra("status", model.Status)
                         intent.putExtra("type", model.Type)
                         intent.putExtra("address", model.Address)
                         intent.putExtra("count", model.Count + 1)
                         intent.putExtra("image", model.Image)
+                        intent.putExtra("eventDescription", model.EventDescription)
+                        intent.putExtra("amenities", model.Amenities)
+                        intent.putExtra("maxPeople", model.MaxPeople)
+                        intent.putExtra("minPeople", model.MinPeople)
+                        intent.putExtra("minPrice", model.MinPrice)
+                        intent.putExtra("bHours", model.bHours)
                         startActivity(intent)
                     }
-                }
-
-                filter.setOnClickListener {
-                    val intent = Intent(this@EventBirthday, AdvancedSearch::class.java)
-                    intent.putExtra("id", placeid)
-                    intent.putExtra("name", model.Name)
-                    intent.putExtra("status", model.Status)
-                    intent.putExtra("type", model.Type)
-                    intent.putExtra("address", model.Address)
-                    intent.putExtra("count", model.Count)
-                    intent.putExtra("image", model.Image)
-                    startActivity(intent)
                 }
             }
         }
