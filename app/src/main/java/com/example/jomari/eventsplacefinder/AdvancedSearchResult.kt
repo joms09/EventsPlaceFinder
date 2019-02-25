@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.jomari.eventsplacefinder.NewMessageActivity.Companion.USER_KEY
@@ -14,7 +13,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.FirebaseFirestore
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
@@ -79,7 +77,7 @@ class AdvancedSearchResult : AppCompatActivity() {
                 // Get Post object and use the values to update the UI
                 dataSnapshot.children.forEach { data ->
                     data.getValue(Model::class.java)?.let { model ->
-                        val typeFromDb = model.Type
+                        val typeFromDb = model.eventtype
                         val maxPeopleFromDb = model.MaxPeople
                         val minPeopleFromDb = model.MinPeople
                         val minPriceFromDb = model.MinPrice
@@ -125,8 +123,8 @@ class AdvancedSearchResult : AppCompatActivity() {
 class SearchItem(val result: Model) : Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        viewHolder.itemView.textview_event_type.text = result.Type
-        viewHolder.itemView.textview_event_name.text = result.Name
+        viewHolder.itemView.textview_event_type.text = result.eventtype
+        viewHolder.itemView.textview_event_name.text = result.eventname
         if (!result.Image!!.isEmpty()) {
             val requestOptions = RequestOptions().placeholder(R.drawable.no_image2)
 

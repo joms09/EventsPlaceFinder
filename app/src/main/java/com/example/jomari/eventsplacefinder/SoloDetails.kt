@@ -31,8 +31,8 @@ class SoloDetails : AppCompatActivity() {
 
         val intent = intent
         id = intent.getStringExtra("id")
-        val name = intent.getStringExtra("name")
-        val type = intent.getStringExtra("type")
+        val name = intent.getStringExtra("eventname")
+        val type = intent.getStringExtra("eventtype")
         val address = intent.getStringExtra("address")
         val count = intent.getIntExtra("count", 0)
         val image = intent.getStringExtra("image")

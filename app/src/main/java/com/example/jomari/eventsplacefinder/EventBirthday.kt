@@ -1,14 +1,11 @@
 package com.example.jomari.eventsplacefinder
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.Sampler
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +35,7 @@ class EventBirthday : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_event)
 
-        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("type").equalTo("Birthday")
+        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("eventtype").equalTo("Birthday")
         mrecylerview = findViewById(R.id.reyclerview)
         mrecylerview.layoutManager = LinearLayoutManager(this)
         show_progress = findViewById(R.id.progress_bar)
@@ -71,15 +68,15 @@ class EventBirthday : AppCompatActivity() {
                     override fun onDataChange(p0: DataSnapshot) {
                         val status = p0.child("eventStatus").value
                         if (status == "Verified") {
-                            holder.txt_name.text = model.Name
+                            holder.txt_name.text = model.eventname
                             Picasso.get().load(model.Image).into(holder.img_vet)
                             holder.img_vet.setOnClickListener {
 
                                 event.child("count").setValue(model.Count + 1).addOnCompleteListener {
                                     val intent = Intent(this@EventBirthday, SoloDetails::class.java)
                                     intent.putExtra("id", placeid)
-                                    intent.putExtra("name", model.Name)
-                                    intent.putExtra("type", model.Type)
+                                    intent.putExtra("eventname", model.eventname)
+                                    intent.putExtra("eventtype", model.eventtype)
                                     intent.putExtra("address", model.Address)
                                     intent.putExtra("count", model.Count + 1)
                                     intent.putExtra("image", model.Image)
