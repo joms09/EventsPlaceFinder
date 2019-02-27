@@ -21,12 +21,14 @@ data class Model(
     var MinPeople : String? = null,
     var MinPrice : String? = null,
     var bHours : String? =  null,
-    var eventStatus : String? = null
+    var eventStatus : String? = null,
+    var city : String? = null
+
 
 
 ) : Parcelable {
 
 
     constructor() : this("", "", "", "", "", 0, "", "",
-        "", "", "", "", "", "", "", "")
+        "", "", "", "", "", "", "", "", "")
 }

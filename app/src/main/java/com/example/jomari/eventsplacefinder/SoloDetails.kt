@@ -42,6 +42,7 @@ class SoloDetails : AppCompatActivity() {
         val minPeople = intent.getStringExtra("minPeople")
         val minPrice = intent.getStringExtra("minPrice")
         val bHours = intent.getStringExtra("bHours")
+        val city = intent.getStringExtra("city")
 
 
         name_details.text = name
@@ -51,6 +52,7 @@ class SoloDetails : AppCompatActivity() {
         Picasso.get().load(image).into(image_details)
         description_details.text = description
         amenities_details.text = amenities
+        city_details.text = city
         max_people_details.text = maxPeople
         min_people_details.text = minPeople
         min_price_details.text = minPrice

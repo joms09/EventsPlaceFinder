@@ -47,6 +47,7 @@ class AdvancedSearchResult : AppCompatActivity() {
         val pickstartdate = intent.getStringExtra("pickstartdate")
         capacity1 = intent.getStringExtra("capacity1")
         val type = intent.getStringExtra("event")
+        val city = intent.getStringExtra("city")
         minibudget = intent.getStringExtra("minibudget")
 
         locationLabel.text = location
@@ -82,13 +83,16 @@ class AdvancedSearchResult : AppCompatActivity() {
                         val minPeopleFromDb = model.MinPeople
                         val minPriceFromDb = model.MinPrice
                         val eventStatus = model.eventStatus
+                        val cityFromDb = model.city
                         if (eventStatus == "Verified") {
                             if (typeFromDb == type) {
-                                if (maxPeopleFromDb.toString() >= capacity1 && minPeopleFromDb.toString() <= capacity1) {
-                                    if (minPriceFromDb.toString() <= minibudget) {
-                                        val item = SearchItem(model)
-                                        item.result.Id = data.key
-                                        adapter.add(item)
+                                if (cityFromDb == city) {
+                                    if (maxPeopleFromDb.toString() >= capacity1 && minPeopleFromDb.toString() <= capacity1) {
+                                        if (minPriceFromDb.toString() <= minibudget) {
+                                            val item = SearchItem(model)
+                                            item.result.Id = data.key
+                                            adapter.add(item)
+                                        }
                                     }
                                 }
                             }
@@ -109,6 +113,7 @@ class AdvancedSearchResult : AppCompatActivity() {
             intent.putExtra("name", name)
             intent.putExtra("status", status)
             intent.putExtra("type", type)
+            intent.putExtra("city", city)
             intent.putExtra("address", address)
             intent.putExtra("count", count)
             intent.putExtra("image", image)

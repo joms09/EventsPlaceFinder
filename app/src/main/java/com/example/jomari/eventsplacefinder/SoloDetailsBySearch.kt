@@ -37,6 +37,7 @@ class SoloDetailsBySearch : AppCompatActivity() {
             Picasso.get().load(toResult.Image).into(image_details)
             description_details.text = toResult.EventDescription
             amenities_details.text = toResult.Amenities
+            city_details.text = toResult.city
             max_people_details.text = toResult.MaxPeople
             min_people_details.text = toResult.MinPeople
             min_price_details.text = toResult.MinPrice

@@ -82,6 +82,7 @@ class EventBirthday : AppCompatActivity() {
                                     intent.putExtra("image", model.Image)
                                     intent.putExtra("eventDescription", model.EventDescription)
                                     intent.putExtra("amenities", model.Amenities)
+                                    intent.putExtra("city", model.city)
                                     intent.putExtra("maxPeople", model.MaxPeople)
                                     intent.putExtra("minPeople", model.MinPeople)
                                     intent.putExtra("minPrice", model.MinPrice)

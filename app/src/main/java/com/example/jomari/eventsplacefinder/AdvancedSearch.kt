@@ -2,23 +2,22 @@ package com.example.jomari.eventsplacefinder
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.*
+import android.app.Activity
+import android.app.ProgressDialog
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import android.opengl.Visibility
 import android.os.Build
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.MediaStore
 import android.provider.Settings
+import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -27,10 +26,7 @@ import android.widget.*
 import kotlinx.android.synthetic.main.advance_search.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
 import java.util.*
-import android.widget.ArrayAdapter
-import android.widget.Spinner
 
 private const val PERMISSION_REQUEST = 10
 
@@ -38,11 +34,12 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
 
     lateinit var getLocation: Button
-//    lateinit var pickStartDate: Button
+    //    lateinit var pickStartDate: Button
 //    lateinit var pickStartTime: Button
     lateinit var capacity: EditText
     lateinit var eventType: Spinner
     lateinit var amenitiesSpin: Spinner
+    lateinit var citySpin: Spinner
     lateinit var miniBudget: EditText
     lateinit var mProgressbar: ProgressDialog
 
@@ -75,6 +72,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //        pickStartTime = findViewById(R.id.timeStartBtn)
         capacity = findViewById(R.id.capacity)
         amenitiesSpin = findViewById(R.id.amenitiesSpinner)
+        citySpin = findViewById(R.id.city)
         eventType = findViewById(R.id.eventType)
         miniBudget = findViewById(R.id.miniBudget)
 
@@ -154,6 +152,35 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         // Set Adapter to Spinner
         spinner.adapter = aa
+
+        val citySpinner: Spinner?
+
+        citySpinner = this.citySpin
+        citySpinner.onItemSelectedListener = this
+
+        val cities = arrayOf(
+            "Manila",
+            "Caloocan",
+            "Las Piñas",
+            "Makati",
+            "Malabon",
+            "Mandaluyong",
+            "Marikina",
+            "Muntinlupa",
+            "Navotas",
+            "Parañaque",
+            "Pasay",
+            "Pasig",
+            "Quezon City",
+            "San Juan",
+            "Taguig",
+            "Valenzuela"
+        )
+
+        val cc = ArrayAdapter(this, android.R.layout.simple_spinner_item, cities)
+        cc.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        citySpinner.adapter = cc
+
 
         miniBudget.addTextChangedListener(onTextChangedListener())
         capacity.addTextChangedListener(this.onTextChangedListener2())
@@ -465,6 +492,7 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val capacity1 = capacity.text.toString().trim()
         val event = eventType.selectedItem.toString().trim()
         val amenities = amenitiesSpin.selectedItem.toString().trim()
+        val cities = citySpin.selectedItem.toString().trim()
         val minibudget = miniBudget.text.toString().trim()
 
         when {
@@ -485,10 +513,9 @@ class AdvancedSearch : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
                 intent.putExtra("amenities", amenities)
                 intent.putExtra("location", location)
-//                intent.putExtra("pickstartdate", pickstartdate)
-//                intent.putExtra("pickstarttime", pickstarttime)
                 intent.putExtra("capacity1", capacity1)
                 intent.putExtra("event", event)
+                intent.putExtra("city", cities)
                 intent.putExtra("minibudget", minibudget)
                 val mProgressbar = ProgressDialog(this)
                 mProgressbar.setTitle("Searching!")
