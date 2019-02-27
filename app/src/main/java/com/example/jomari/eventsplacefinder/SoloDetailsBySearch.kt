@@ -30,13 +30,14 @@ class SoloDetailsBySearch : AppCompatActivity() {
         val event = FirebaseDatabase.getInstance().getReference("event").child(toResult.Id!!)
         event.child("count").setValue(toResult.Count + 1).addOnCompleteListener {
 
-            name_details.text = toResult.Name
-            type_details.text = toResult.Type
+            name_details.text = toResult.eventname
+            type_details.text = toResult.eventtype
             address_details.text = toResult.Address
             count_details.text = "${toResult.Count.plus(1)}"
             Picasso.get().load(toResult.Image).into(image_details)
             description_details.text = toResult.EventDescription
             amenities_details.text = toResult.Amenities
+            city_details.text = toResult.city
             max_people_details.text = toResult.MaxPeople
             min_people_details.text = toResult.MinPeople
             min_price_details.text = toResult.MinPrice
@@ -62,11 +63,11 @@ class SoloDetailsBySearch : AppCompatActivity() {
 
             if (acct != null) {
                 val intentAct = Intent(this, LatestMessagesActivity::class.java)
-                intentAct.putExtra("nameOfComp", toResult.Name)
+                intentAct.putExtra("nameOfComp", toResult.eventname)
                 startActivity(intentAct)
             } else if (acctFbTwEm != null) {
                 val intentAct = Intent(this, LatestMessagesActivity::class.java)
-                intentAct.putExtra("nameOfComp", toResult.Name)
+                intentAct.putExtra("nameOfComp", toResult.eventname)
                 startActivity(intentAct)
             } else {
                 Toast.makeText(applicationContext, "Invalid Account", Toast.LENGTH_LONG).show()

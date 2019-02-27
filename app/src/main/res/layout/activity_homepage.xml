@@ -19,6 +19,18 @@
         <include
                 layout="@layout/toolbar"/>
 
+        <com.mancj.materialsearchbar.MaterialSearchBar
+                style="@style/MaterialSearchBarLight"
+                app:mt_speechMode="false"
+                app:mt_hint="Custom hint"
+                app:mt_placeholder="Search"
+                app:mt_maxSuggestionsCount="10"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchBarHomePage" />
+
         <GridLayout
                 android:columnCount="2"
                 android:rowCount="3"

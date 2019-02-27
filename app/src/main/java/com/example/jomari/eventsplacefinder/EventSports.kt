@@ -3,7 +3,6 @@ package com.example.jomari.eventsplacefinder
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.Sampler
 import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -36,7 +35,7 @@ class EventSports : AppCompatActivity() {
         FirebaseApp.initializeApp(this)
         setContentView(R.layout.activity_event)
 
-        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("type").equalTo("Sports")
+        ref = FirebaseDatabase.getInstance().getReference("event").orderByChild("eventtype").equalTo("Sports")
         mrecylerview = findViewById(R.id.reyclerview)
         mrecylerview.layoutManager = LinearLayoutManager(this)
         show_progress = findViewById(R.id.progress_bar)
@@ -60,31 +59,45 @@ class EventSports : AppCompatActivity() {
                 val event = FirebaseDatabase.getInstance().getReference("event").child(placeid)
 
                 show_progress.visibility = if (itemCount == 0) View.VISIBLE else View.GONE
-                holder.txt_name.text = model.Name
-                Picasso.get().load(model.Image).into(holder.img_vet)
-
-                holder.img_vet.setOnClickListener {
-
-                    event.child("count").setValue(model.Count + 1).addOnCompleteListener {
-                        val intent = Intent(this@EventSports, SoloDetails::class.java)
-                        intent.putExtra("id", placeid)
-                        intent.putExtra("name", model.Name)
-                        intent.putExtra("status", model.Status)
-                        intent.putExtra("type", model.Type)
-                        intent.putExtra("address", model.Address)
-                        intent.putExtra("phone", model.Phone)
-                        intent.putExtra("cpnumber", model.Cpnumber)
-                        intent.putExtra("count", model.Count + 1)
-                        intent.putExtra("image", model.Image)
-                        intent.putExtra("eventDescription", model.EventDescription)
-                        intent.putExtra("amenities", model.Amenities)
-                        intent.putExtra("maxPeople", model.MaxPeople)
-                        intent.putExtra("minPeople", model.MinPeople)
-                        intent.putExtra("minPrice", model.MinPrice)
-                        intent.putExtra("bHours", model.bHours)
-                        startActivity(intent)
+                event.addValueEventListener(object : ValueEventListener {
+                    override fun onCancelled(p0: DatabaseError) {
                     }
-                }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        val status = p0.child("eventStatus").value
+                        if (status == "Verified") {
+                            holder.txt_name.text = model.eventname
+                            Picasso.get().load(model.Image).into(holder.img_vet)
+                            holder.img_vet.setOnClickListener {
+
+                                event.child("count").setValue(model.Count + 1).addOnCompleteListener {
+                                    val intent = Intent(this@EventSports, SoloDetails::class.java)
+                                    intent.putExtra("id", placeid)
+                                    intent.putExtra("eventname", model.eventname)
+                                    intent.putExtra("eventtype", model.eventtype)
+                                    intent.putExtra("address", model.Address)
+                                    intent.putExtra("count", model.Count + 1)
+                                    intent.putExtra("image", model.Image)
+                                    intent.putExtra("eventDescription", model.EventDescription)
+                                    intent.putExtra("amenities", model.Amenities)
+                                    intent.putExtra("city", model.city)
+                                    intent.putExtra("maxPeople", model.MaxPeople)
+                                    intent.putExtra("minPeople", model.MinPeople)
+                                    intent.putExtra("minPrice", model.MinPrice)
+                                    intent.putExtra("bHours", model.bHours)
+                                    startActivity(intent)
+                                }
+                            }
+                        } else {
+                            holder.txt_name.visibility = View.GONE
+                            holder.img_vet.visibility = View.GONE
+                            if (holder.equals(0)) {
+                                holder.img_vet.visibility = View.GONE
+                                noresult.text = "No Results Found"
+                            }
+                        }
+                    }
+                })
 
             }
         }

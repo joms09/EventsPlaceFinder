@@ -34,6 +34,7 @@
     <Button
             android:text="@string/submit_ratings_and_reviews"
             android:layout_marginTop="15dp"
+            android:background="@color/colorPrimary"
             android:textStyle="bold"
             android:fontFamily="monospace"
             android:layout_width="match_parent"

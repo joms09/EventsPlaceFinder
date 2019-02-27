@@ -104,6 +104,7 @@
         <activity android:name=".LatestMessagesActivity"/>
         <activity android:name=".NewMessageActivity"/>
         <activity android:name=".SoloDetailsBySearch"/>
+        <activity android:name=".Filter"/>
     </application>
 
 </manifest>

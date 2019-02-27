@@ -14,6 +14,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import kotlinx.android.synthetic.main.activity_homepage.*
 import kotlinx.android.synthetic.main.toolbar.*
 import models.User
 
@@ -26,6 +27,10 @@ class HomePage : AppCompatActivity() {
 
         verifyUserIsLoggedIn()
 
+        searchBarHomePage.setOnClickListener {
+            val intent = Intent(this, Filter::class.java)
+            startActivity(intent)
+        }
 
         val cm = baseContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

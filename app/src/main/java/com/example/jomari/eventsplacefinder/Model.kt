@@ -8,9 +8,9 @@ import kotlinx.android.parcel.Parcelize
 data class Model(
     var Id: String? = null,
     var Image: String? = null,
-    var Name: String? = null,
+    var eventname: String? = null,
     var Status: String? = null,
-    var Type: String? = null,
+    var eventtype: String? = null,
     var Count: Int = 0,
     var Address: String? = null,
     var Phone: String? = null,
@@ -20,12 +20,15 @@ data class Model(
     var MaxPeople: String? = null,
     var MinPeople : String? = null,
     var MinPrice : String? = null,
-    var bHours : String? =  null
+    var bHours : String? =  null,
+    var eventStatus : String? = null,
+    var city : String? = null
+
 
 
 ) : Parcelable {
 
 
     constructor() : this("", "", "", "", "", 0, "", "",
-        "", "", "", "", "", "", "")
+        "", "", "", "", "", "", "", "", "")
 }
